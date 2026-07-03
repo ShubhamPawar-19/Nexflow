@@ -14,7 +14,7 @@ import z from "zod";
 const formSchema = z.object({
     variableName: z.string()
     .min(1, { message: "Variable name is required" })
-    .regex(/^[A-Za-z_$] [A-Za-z0-9_$]*$/, {
+    .regex(/^[A-Za-z_$][A-Za-z0-9_$]*$/, {
         message: "Variable name must start with a letter or underscore and contains only letter,numbers, and undescores ",
     }),
     endpoint: z.url({ message: "Please enter a valid URL" }),
