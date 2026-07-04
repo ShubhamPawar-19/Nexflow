@@ -1,4 +1,7 @@
 import {Inngest } from "inngest";
+import { realtimeMiddleware } from "@inngest/realtime/middleware";
 
-//create client to send and recieve events
-export const inngest = new Inngest({id: "nexflow"});
+export const inngest = new Inngest({
+    id: "nexflow",
+    middleware: [realtimeMiddleware()],
+});
