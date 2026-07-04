@@ -16,7 +16,7 @@ export function BaseNode({
   return (
     <div
       className={cn(
-        "bg-card text-card-foreground relative rounded-md border-1.5 transition-all",
+        "bg-card text-card-foreground relative rounded-md border transition-all",
         "hover:bg-accent",
         "in-[.selected]:border-muted-foreground",
         "in-[.selected]:shadow-lg",
