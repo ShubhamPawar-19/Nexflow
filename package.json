@@ -7,6 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "biome check",
+    "ngrok:dev": "ngrok http --url=rhyme-detective-refined.ngrok-free.dev 3000",
     "format": "biome format --write",
     "inngest:dev": "npx inngest-cli dev",
     "dev:all": "mprocs"
