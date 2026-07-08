@@ -4,7 +4,7 @@ import { NodeProps } from "@xyflow/react";
 import { GoogleFormTriggerDialog } from "./dialog";
 import { useNodeStatus } from "@/features/executions/hooks/use-node-status";
 import { GOOGLE_FORM_TRIGGER_CHANNEL_NAME } from "@/inngest/channels/google-form-trigger";
-import { fetchGoogleformTriggerRealtimeToken } from "./actions";
+import { fetchGoogleFormTriggerRealtimeToken } from "./actions";
 
 export const googleFormTrigger = memo((props: NodeProps) => {
 
@@ -14,7 +14,7 @@ export const googleFormTrigger = memo((props: NodeProps) => {
                 nodeId: props.id,
                 channel: GOOGLE_FORM_TRIGGER_CHANNEL_NAME,
                 topic: "status",
-                refreshToken: fetchGoogleformTriggerRealtimeToken,
+                refreshToken: fetchGoogleFormTriggerRealtimeToken,
             });
     const handleOpenSettings = () => setDialogOpen(true);
 

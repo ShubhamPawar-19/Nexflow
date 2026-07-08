@@ -17,7 +17,7 @@ async ({
                     }),
                 );
 
-    const result = await step.run("googl-trigger" , async () => context);
+    const result = await step.run("google-trigger" , async () => context);
 
     await publish(
                     googleFormTriggerChannel().status({

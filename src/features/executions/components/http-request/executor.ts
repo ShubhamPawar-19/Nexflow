@@ -67,7 +67,6 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> =
             const result = await step.run("http-request", async () => {
                 const endpoint = Handlebars.compile(data.endpoint)(context);
                 const method = data.method;
-
                 const options: KyOptions = { method };
 
                 if (["POST", "PUT", "PATCH"].includes(method)) {
@@ -78,7 +77,6 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> =
                         "Content-Type": "application/json",
                     }
                 }
-
                 const response = await ky(endpoint, options);
                 const contentType = response.headers.get("content-type");
                 const responseData = contentType?.includes("application/json")

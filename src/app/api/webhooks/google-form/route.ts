@@ -8,10 +8,13 @@ export async function POST(request: NextRequest) {
 
         if (!workflowId) {
             return NextResponse.json(
-                { success: false, error: "Missing required query parameter: workflowId" },
-                { status: 400 },
+                {
+                    success: false,
+                    error: "Missing required query parameter: workflowId",
+                },
+                { status: 400 }
             );
-        };
+        }
 
         const body = await request.json();
 
@@ -21,22 +24,34 @@ export async function POST(request: NextRequest) {
             responseId: body.responseId,
             timestamp: body.timestamp,
             respondentEmail: body.respondentEmail,
-            response: body.response,
+            responses: body.responses, // <-- make sure this matches your payload
             raw: body,
         };
 
-        //Trigger an Inngest job
         await sendWorkflowExecution({
             workflowId,
             initialData: {
                 googleForm: formData,
-            }
+            },
         });
+
+        // ✅ Return a response on success
+        return NextResponse.json(
+            {
+                success: true,
+                message: "Workflow execution triggered successfully.",
+            },
+            { status: 200 }
+        );
     } catch (error) {
         console.error("Google form webhook error:", error);
+
         return NextResponse.json(
-            { success: false, error: "Failed to process Google Form submission" },
-            { status: 500 },
-        )
+            {
+                success: false,
+                error: "Failed to process Google Form submission",
+            },
+            { status: 500 }
+        );
     }
 }
