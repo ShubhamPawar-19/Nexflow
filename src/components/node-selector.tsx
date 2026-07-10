@@ -51,6 +51,24 @@ const executionNode: NodeTypeOption[] = [
         description: "Makes an HTTP Request",
         icon: GlobeIcon,
     },
+    {
+        type: NodeType.GEMINI,
+        label: "Gemini",
+        description: "Use Google Gemini to generate text",
+        icon: "/logos/gemini.svg",
+    },
+    {
+        type: NodeType.OPENAI,
+        label: "OpenAi",
+        description: "Use OpenAi to generate text",
+        icon: "/logos/openai.svg",
+    },
+    {
+        type: NodeType.ANTHROPIC,
+        label: "Anthropic",
+        description: "Use Anthropic to generate text",
+        icon: "/logos/anthropic.svg",
+    },
 ];
 
 interface NodeSelectorProps {
@@ -115,7 +133,7 @@ export function NodeSelector({
         onOpenChange,
         screenToFlowPosition,
     ]);
-    
+
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
             <SheetTrigger asChild>{children}</SheetTrigger>
