@@ -1,6 +1,6 @@
 "use server";
 
-import { anthropicChannel } from "@/inngest/channels/ANTHROPIC";
+import { anthropicChannel } from "@/inngest/channels/anthropic";
 import { inngest } from "@/inngest/client";
 import { getSubscriptionToken, Realtime } from "@inngest/realtime";
 

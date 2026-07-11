@@ -4,6 +4,7 @@ import { NonRetriableError } from "inngest";
 import { generateText } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { openAiChannel } from "@/inngest/channels/openai";
+import prisma from "@/lib/db";
 
 
 Handlebars.registerHelper("json", (context) => {
@@ -15,7 +16,7 @@ Handlebars.registerHelper("json", (context) => {
 
 type OpenAiData = {
     variableName?: string;
-    model?: string;
+    credentialId?: string;
     systemPrompt?: string;
     userPrompt?: string;
 };
@@ -42,7 +43,16 @@ export const OpenAiExecutor: NodeExecutor<OpenAiData> =
                     status: "error",
                 })
             );
-            throw new NonRetriableError("OpenAi node: Variable name is missing");
+            throw new NonRetriableError("OpenAI node: Variable name is missing");
+        }
+        if (!data.credentialId) {
+            await publish(
+                openAiChannel().status({
+                    nodeId,
+                    status: "error",
+                })
+            );
+            throw new NonRetriableError("OpenAI node: Credential is required");
         }
 
         if (!data.userPrompt) {
@@ -52,22 +62,29 @@ export const OpenAiExecutor: NodeExecutor<OpenAiData> =
                     status: "error",
                 })
             );
-            throw new NonRetriableError("Openai node: User Prompt is missing");
+            throw new NonRetriableError("OpenAI node: User Prompt is missing");
         }
 
-        //todo: throw if when credentials is missing
 
         const systemPrompt = data.systemPrompt
             ? Handlebars.compile(data.systemPrompt)(context)
             : "You are a helful assistant.";
         const userPrompt = Handlebars.compile(data.userPrompt)(context);
 
-        //TODO: Fetch credentials that user selected
+        const credential = await step.run("get-credential", () => {
+            return prisma.credential.findUnique({
+                where: {
+                    id: data.credentialId,
+                },
+            });
+        });
 
-        const credentialValue = process.env.OPENAI_API_KEY!;
+        if (!credential) {
+            throw new NonRetriableError("OpenAI node: Credential not found");
+        }
 
         const openai = createOpenAI({
-            apiKey: credentialValue,
+            apiKey: credential.value,
         });
 
         try {
@@ -75,7 +92,7 @@ export const OpenAiExecutor: NodeExecutor<OpenAiData> =
                 "openai-generate-text",
                 generateText,
                 {
-                    model: openai(data.model || "gpt-4"),
+                    model: openai(data.credentialId || "gpt-4"),
                     system: systemPrompt,
                     prompt: userPrompt,
                     experimental_telemetry: {
