@@ -6,16 +6,19 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useCredentialsByType } from "@/features/credentials/hooks/use-credentials";
+import { CredentialType } from "@/generated/prisma/enums";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
 export const AVAILABEL_MODELS = [
-"claude-2.0",
-"claude-3-7-sonnet",
-"claude-3-5-sonnet",
-"claude-instant-1.2",
+    "claude-2.0",
+    "claude-3-7-sonnet",
+    "claude-3-5-sonnet",
+    "claude-instant-1.2",
 
 ] as const;
 
@@ -25,9 +28,9 @@ const formSchema = z.object({
         .regex(/^[A-Za-z_$][A-Za-z0-9_$]*$/, {
             message: "Variable name must start with a letter or underscore and contains only letter,numbers, and undescores ",
         }),
-    model: z.string().min(1, "Model is Required"),
-    systemPrompt: z.string().optional(),
-    userPrompt: z.string().min(1, "User Prompt is Required"),
+            credentialId: z.string().min(1, "Credential is required"),
+            systemPrompt: z.string().optional(),
+            userPrompt: z.string().min(1, "User Prompt is Required"),
 });
 
 export type AnthropicFormValues = z.infer<typeof formSchema>;
@@ -45,11 +48,16 @@ export const AnthropicDialog = ({
     onSubmit,
     defaultValues = {},
 }: Props) => {
+    const {
+        data: credentials,
+        isLoading: isLoadingCredentials,
+    } = useCredentialsByType(CredentialType.ANTHROPIC);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            credentialId: defaultValues.credentialId || "",
             variableName: defaultValues.variableName || "",
-            model: defaultValues.model || AVAILABEL_MODELS[0],
             systemPrompt: defaultValues.systemPrompt || "",
             userPrompt: defaultValues.userPrompt || "",
         },
@@ -59,8 +67,8 @@ export const AnthropicDialog = ({
     useEffect(() => {
         if (open) {
             form.reset({
+                credentialId: defaultValues.credentialId || "",
                 variableName: defaultValues.variableName || "",
-                model: defaultValues.model || AVAILABEL_MODELS[0],
                 systemPrompt: defaultValues.systemPrompt || "",
                 userPrompt: defaultValues.userPrompt || "",
             });
@@ -107,35 +115,49 @@ export const AnthropicDialog = ({
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={form.control}
-                            name="model"
+                            name="credentialId"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Model</FormLabel>
+                                    <FormLabel>Anthropic Credentials</FormLabel>
                                     <Select
                                         onValueChange={field.onChange}
-                                        defaultValue={field.value}
-                                    >
+                                        defaultValue={field.value}>
+                                        disabled={
+                                            isLoadingCredentials
+                                            || !credentials?.length
+                                        }
                                         <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue>
-                                                </SelectValue>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Select a placeholder" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {AVAILABEL_MODELS.map((model) => (
-                                                <SelectItem key={model} value={model}>{model}</SelectItem>
+                                            {credentials?.map((option) => (
+                                                <SelectItem
+                                                    key={option.id}
+                                                    value={option.id}
+                                                >
+                                                    <div className="flex items-center gap-2">
+                                                        <Image
+                                                            src="/logos/anthropic.svg"
+                                                            alt="Anthropic"
+                                                            width={16}
+                                                            height={16}
+                                                        />
+                                                        {option.name}
+                                                    </div>
+                                                </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
-                                    <FormDescription>
-                                        The Anthropic Model to use for complition
-                                    </FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+                        
                         <FormField
                             control={form.control}
                             name="systemPrompt"

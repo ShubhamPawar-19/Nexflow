@@ -6,16 +6,19 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useCredentialsByType } from "@/features/credentials/hooks/use-credentials";
+import { CredentialType } from "@/generated/prisma/enums";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
 export const AVAILABEL_MODELS = [
-"gpt-4",
-"gpt-4o-mini",
-"gpt-4-turbo",
-"gpt-3.5-turbo",
+    "gpt-4",
+    "gpt-4o-mini",
+    "gpt-4-turbo",
+    "gpt-3.5-turbo",
 
 ] as const;
 
@@ -25,7 +28,7 @@ const formSchema = z.object({
         .regex(/^[A-Za-z_$][A-Za-z0-9_$]*$/, {
             message: "Variable name must start with a letter or underscore and contains only letter,numbers, and undescores ",
         }),
-    model: z.string().min(1, "Model is Required"),
+    credentialId: z.string().min(1, "Credential is required"),
     systemPrompt: z.string().optional(),
     userPrompt: z.string().min(1, "User Prompt is Required"),
 });
@@ -45,11 +48,16 @@ export const OpenAiDialog = ({
     onSubmit,
     defaultValues = {},
 }: Props) => {
+
+    const {
+        data: credentials,
+        isLoading: isLoadingCredentials,
+    } = useCredentialsByType(CredentialType.OPENAI);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            credentialId: defaultValues.credentialId || "",
             variableName: defaultValues.variableName || "",
-            model: defaultValues.model || AVAILABEL_MODELS[0],
             systemPrompt: defaultValues.systemPrompt || "",
             userPrompt: defaultValues.userPrompt || "",
         },
@@ -60,7 +68,7 @@ export const OpenAiDialog = ({
         if (open) {
             form.reset({
                 variableName: defaultValues.variableName || "",
-                model: defaultValues.model || AVAILABEL_MODELS[0],
+                credentialId: defaultValues.credentialId || "",
                 systemPrompt: defaultValues.systemPrompt || "",
                 userPrompt: defaultValues.userPrompt || "",
             });
@@ -109,29 +117,41 @@ export const OpenAiDialog = ({
                         />
                         <FormField
                             control={form.control}
-                            name="model"
+                            name="credentialId"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Model</FormLabel>
+                                    <FormLabel>OpenAI Credentials</FormLabel>
                                     <Select
                                         onValueChange={field.onChange}
-                                        defaultValue={field.value}
-                                    >
+                                        defaultValue={field.value}>
+                                        disabled={
+                                            isLoadingCredentials
+                                            || !credentials?.length
+                                        }
                                         <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue>
-                                                </SelectValue>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Select a placeholder" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {AVAILABEL_MODELS.map((model) => (
-                                                <SelectItem key={model} value={model}>{model}</SelectItem>
+                                            {credentials?.map((option) => (
+                                                <SelectItem
+                                                    key={option.id}
+                                                    value={option.id}
+                                                >
+                                                    <div className="flex items-center gap-2">
+                                                        <Image
+                                                            src="/logos/openai.svg"
+                                                            alt="OpenAI"
+                                                            width={16}
+                                                            height={16}
+                                                        />
+                                                        {option.name}
+                                                    </div>
+                                                </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
-                                    <FormDescription>
-                                        The Openai Model to use for complition
-                                    </FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
