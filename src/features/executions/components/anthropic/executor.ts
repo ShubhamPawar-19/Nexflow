@@ -25,6 +25,7 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> =
     async ({
         data,
         nodeId,
+        userId,
         context,
         step,
         publish,
@@ -47,14 +48,14 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> =
         }
 
         if (!data.credentialId) {
-                    await publish(
-                        anthropicChannel().status({
-                            nodeId,
-                            status: "error",
-                        })
-                    );
-                    throw new NonRetriableError("Anthropic node: Credential is required");
-                }
+            await publish(
+                anthropicChannel().status({
+                    nodeId,
+                    status: "error",
+                })
+            );
+            throw new NonRetriableError("Anthropic node: Credential is required");
+        }
 
         if (!data.userPrompt) {
             await publish(
@@ -73,16 +74,23 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> =
         const userPrompt = Handlebars.compile(data.userPrompt)(context);
 
         const credential = await step.run("get-credential", () => {
-                    return prisma.credential.findUnique({
-                        where: {
-                            id: data.credentialId,
-                        },
-                    });
-                });
-        
-                if (!credential) {
-                    throw new NonRetriableError("Anthropic node: Credential not found");
-                }
+            return prisma.credential.findUnique({
+                where: {
+                    id: data.credentialId,
+                    userId,
+                },
+            });
+        });
+
+        if (!credential) {
+            await publish(
+                anthropicChannel().status({
+                    nodeId,
+                    status: "error",
+                })
+            );
+            throw new NonRetriableError("Anthropic node: Credential not found");
+        }
 
 
         const anthropic = createAnthropic({
