@@ -11,7 +11,7 @@
     "format": "biome format --write",
     "inngest:dev": "npx inngest-cli dev",
     "dev:all": "mprocs"
-},
+  },
   "dependencies": {
     "@ai-sdk/anthropic": "^3.0.71",
     "@ai-sdk/google": "^3.0.64",
@@ -39,6 +39,7 @@
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "handlebars": "^4.7.8",
+    "html-entities": "^2.6.0",
     "inngest": "^3.44.1",
     "input-otp": "^1.4.2",
     "jotai": "^2.15.0",
