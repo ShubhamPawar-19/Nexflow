@@ -3,6 +3,7 @@ import { createTRPCRouter, premiumProcedure, protectedProcedure } from "@/trpc/i
 import z from "zod";
 import { PAGINATION } from "@/config/constants";
 import { CredentialType, NodeType } from "@/generated/prisma/enums";
+import { encrypt } from "@/lib/encryption";
 
 export const credentialsRouter = createTRPCRouter({
 
@@ -22,7 +23,7 @@ export const credentialsRouter = createTRPCRouter({
                     name,
                     userId: ctx.auth.user.id,
                     type,
-                    value, //TODO: Consider encrypting in production
+                    value: encrypt(value),
                 },
             });
         }),
@@ -60,7 +61,7 @@ export const credentialsRouter = createTRPCRouter({
                 data: {
                     name,
                     type,
-                    value, //TODO: Consider encrypting in production
+                    value: encrypt(value),
                 }
             });
         }),
@@ -128,7 +129,7 @@ export const credentialsRouter = createTRPCRouter({
                 hasPreviousPage,
             };
         }),
-        getByType: protectedProcedure
+    getByType: protectedProcedure
         .input(
             z.object({
                 type: z.enum(CredentialType),
