@@ -39,40 +39,54 @@ export const credentialsRouter = createTRPCRouter({
             });
         }),
 
-
     update: protectedProcedure
         .input(
             z.object({
                 id: z.string(),
                 name: z.string().min(1, "Name is required"),
                 type: z.enum(CredentialType),
-                value: z.string().min(1, "Value is required")
+                value: z.string(),
             }),
         )
         .mutation(async ({ ctx, input }) => {
             const { id, name, type, value } = input;
 
-            const credential = await prisma.credential.findUniqueOrThrow({
-                where: { id, userId: ctx.auth.user.id },
-            });
+            const updateData: {
+                name: string;
+                type: CredentialType;
+                value?: string;
+            } = {
+                name,
+                type,
+            };
+
+            if (value.trim() !== "") {
+                updateData.value = encrypt(value);
+            }
 
             return prisma.credential.update({
-                where: { id, userId: ctx.auth.user.id },
-                data: {
-                    name,
-                    type,
-                    value: encrypt(value),
-                }
+                where: {
+                    id,
+                    userId: ctx.auth.user.id,
+                },
+                data: updateData,
             });
         }),
 
     getOne: protectedProcedure
         .input(z.object({ id: z.string() }))
         .query(async ({ ctx, input }) => {
-            return prisma.credential.findUniqueOrThrow({
-                where: { id: input.id, userId: ctx.auth.user.id },
+            const credential = await prisma.credential.findUniqueOrThrow({
+                where: {
+                    id: input.id,
+                    userId: ctx.auth.user.id,
+                },
             });
 
+            return {
+                ...credential,
+                value: "",
+            };
         }),
 
     getMany: protectedProcedure

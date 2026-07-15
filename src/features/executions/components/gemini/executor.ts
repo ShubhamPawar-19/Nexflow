@@ -6,6 +6,7 @@ import { geminiChannel } from "@/inngest/channels/gemini";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import prisma from "@/lib/db";
 import { decrypt } from "@/lib/encryption";
+import { AVAILABLE_MODELS } from "./constants";
 
 
 Handlebars.registerHelper("json", (context) => {
@@ -15,11 +16,14 @@ Handlebars.registerHelper("json", (context) => {
     return safeString;
 });
 
+type GeminiModel = typeof AVAILABLE_MODELS[number];
+
 type GeminiData = {
-    variableName?: string;
-    credentialId?: string;
-    systemPrompt?: string;
-    userPrompt?: string;
+  variableName?: string;
+  credentialId?: string;
+  model?: GeminiModel;
+  systemPrompt?: string;
+  userPrompt?: string;
 };
 
 export const geminiExecutor: NodeExecutor<GeminiData> =
@@ -57,6 +61,16 @@ export const geminiExecutor: NodeExecutor<GeminiData> =
             );
             throw new NonRetriableError("Gemini node: Credential is required");
         }
+        if (!data.model) {
+            await publish(
+                geminiChannel().status({
+                    nodeId,
+                    status: "error",
+                }),
+            );
+
+            throw new NonRetriableError("Gemini node: Model is required");
+        }
 
         if (!data.userPrompt) {
             await publish(
@@ -68,9 +82,9 @@ export const geminiExecutor: NodeExecutor<GeminiData> =
             throw new NonRetriableError("Gemini node: User Prompt is missing");
         }
 
-        const systemPrompt = data.systemPrompt
+        const systemPrompt = data.systemPrompt  
             ? Handlebars.compile(data.systemPrompt)(context)
-            : "You are a helful assistant.";
+            : "You are a helpful assistant.";
         const userPrompt = Handlebars.compile(data.userPrompt)(context);
 
         const credential = await step.run("get-credential", () => {
@@ -81,7 +95,6 @@ export const geminiExecutor: NodeExecutor<GeminiData> =
                 },
             });
         });
-
         if (!credential) {
             await publish(
                 geminiChannel().status({
@@ -92,8 +105,11 @@ export const geminiExecutor: NodeExecutor<GeminiData> =
             throw new NonRetriableError("Gemini node: Credential not found");
         }
 
+        const apiKey = decrypt(credential.value);
+
+
         const google = createGoogleGenerativeAI({
-            apiKey: decrypt(credential.value),
+            apiKey,
         });
 
         try {
@@ -101,7 +117,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> =
                 "gemini-generate-text",
                 generateText,
                 {
-                    model: google(data.credentialId || "gemini-2.5-flash"),
+                    model: google(data.model),
                     system: systemPrompt,
                     prompt: userPrompt,
                     experimental_telemetry: {

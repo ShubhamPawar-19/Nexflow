@@ -1,5 +1,5 @@
+"use client"
 import { Button } from "@/components/ui/button";
-import { Execution } from "@/generated/prisma/client";
 import { executionStatus } from "@/generated/prisma/enums";
 import { formatDistanceToNow } from "date-fns";
 import { CheckCircle2Icon, ClockIcon, Loader2Icon, XCircleIcon } from "lucide-react";

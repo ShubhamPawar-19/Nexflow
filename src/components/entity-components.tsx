@@ -212,7 +212,7 @@ export const EmptyView = ({
     onNew
 }: EmptyViewProps) => {
     return (
-        <Empty className="border border-dashed bg-white">
+        <Empty className="border border-dashed bg-background">
             <EmptyHeader>
                 <EmptyMedia>
                     <PackageOpenIcon/>

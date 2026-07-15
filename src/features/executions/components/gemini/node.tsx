@@ -3,16 +3,18 @@
 import { Node, NodeProps, useReactFlow } from "@xyflow/react";
 import { memo, useState } from "react";
 import { BaseExecutionNode } from "../base-execution-node";
-import { AVAILABEL_MODELS, GeminiDialog, GeminiFormValues } from "./dialog";
+import { GeminiDialog, GeminiFormValues } from "./dialog";
 import { useNodeStatus } from "../../hooks/use-node-status";
 import { GEMINI_CHANNEL_NAME } from "@/inngest/channels/gemini";
 import { fetchGeminiRealtimeToken } from "./actions";
+import { AVAILABLE_MODELS, GeminiModel } from "./constants";
 
 type GeminiNodeData = {
     variableName?: string;
     credentialId?: string;
     systemPrompt?: string;
     userPrompt?: string;
+    model?: GeminiModel;
 };
 
 type GeminiNodeType = Node<GeminiNodeData>;
@@ -47,9 +49,10 @@ export const GeminiNode = memo((props: NodeProps<GeminiNodeType>) => {
     }
 
     const nodeData = props.data;
-    const description = nodeData?.userPrompt
-        ? `${nodeData.credentialId || AVAILABEL_MODELS[0]}: ${nodeData.userPrompt.slice(0, 50)}...`
-        : "Not configured";
+    const description =
+        nodeData?.userPrompt
+            ? `${nodeData.model ?? AVAILABLE_MODELS[0]}: ${nodeData.userPrompt.slice(0, 50)}...`
+            : "Not configured";
 
     return (
         <>
