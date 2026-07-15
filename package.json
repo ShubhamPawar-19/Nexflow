@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "prisma generate && next build --turbopack",
     "start": "next start",
     "lint": "biome check",
     "ngrok:dev": "ngrok http --url=rhyme-detective-refined.ngrok-free.dev 3000",
