@@ -21,6 +21,8 @@ export const executorRegistry: Record<NodeType, NodeExecutor> = {
     [NodeType.OPENAI]: OpenAiExecutor,
     [NodeType.DISCORD]: discordExecutor,
     [NodeType.SLACK]: slackExecutor,
+    [NodeType.WHATSAPP]: slackExecutor,
+    [NodeType.WHATSAPP_TRIGGER]: slackExecutor,
 };
 
 export const getExecutor = (type: NodeType): NodeExecutor => {

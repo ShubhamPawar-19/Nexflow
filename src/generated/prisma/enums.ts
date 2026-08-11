@@ -12,7 +12,8 @@
 export const CredentialType = {
   OPENAI: 'OPENAI',
   ANTHROPIC: 'ANTHROPIC',
-  GEMINI: 'GEMINI'
+  GEMINI: 'GEMINI',
+  WHATSAPP: 'WHATSAPP'
 } as const
 
 export type CredentialType = (typeof CredentialType)[keyof typeof CredentialType]
@@ -21,14 +22,16 @@ export type CredentialType = (typeof CredentialType)[keyof typeof CredentialType
 export const NodeType = {
   INITIAL: 'INITIAL',
   MANUAL_TRIGGER: 'MANUAL_TRIGGER',
-  HTTP_REQUEST: 'HTTP_REQUEST',
   GOOGLE_FORM_TRIGGER: 'GOOGLE_FORM_TRIGGER',
   STRIPE_TRIGGER: 'STRIPE_TRIGGER',
+  WHATSAPP_TRIGGER: 'WHATSAPP_TRIGGER',
+  HTTP_REQUEST: 'HTTP_REQUEST',
   ANTHROPIC: 'ANTHROPIC',
   OPENAI: 'OPENAI',
   GEMINI: 'GEMINI',
   DISCORD: 'DISCORD',
-  SLACK: 'SLACK'
+  SLACK: 'SLACK',
+  WHATSAPP: 'WHATSAPP'
 } as const
 
 export type NodeType = (typeof NodeType)[keyof typeof NodeType]
