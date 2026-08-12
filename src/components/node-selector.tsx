@@ -81,6 +81,12 @@ const executionNode: NodeTypeOption[] = [
         description: "Send a message to Slack",
         icon: "/logos/slack.svg",
     },
+    {
+    type: NodeType.WHATSAPP,
+    label: "WhatsApp",
+    description: "Send a WhatsApp message",
+    icon: "/logos/whatsapp.svg",
+},
 ];
 
 interface NodeSelectorProps {

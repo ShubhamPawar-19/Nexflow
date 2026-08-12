@@ -1,0 +1,1 @@
+export const WHATSAPP_OUTPUT_VARIABLE = "whatsapp";
