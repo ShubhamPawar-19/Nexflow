@@ -66,12 +66,26 @@ export const discordExecutor: NodeExecutor<DiscordData> =
                     throw new NonRetriableError("Discord node: Webhook URL is required");
                 }
 
-                await ky.post(data.webhookUrl!, {
-                    json: {
-                        content: content.slice(0, 2000), //Discord's max length
+                try {
+                    await ky.post(data.webhookUrl!, {
+                        json: {
+                            content: content.slice(0, 2000),
+                            username,
+                        },
+                    });
+                } catch (error: any) {
+                    console.log("Discord Payload:", {
+                        webhookUrl: data.webhookUrl,
+                        content: content.slice(0, 2000),
                         username,
-                    },
-                });
+                    });
+
+                    if (error.response) {
+                        console.log("Discord Response:", await error.response.text());
+                    }
+
+                    throw error;
+                }
 
                 if (!data.variableName) {
                     await publish(

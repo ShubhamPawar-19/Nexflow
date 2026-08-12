@@ -12,7 +12,7 @@ export const topologicalSort = (
         return nodes;
     }
 
-    //Create edges arrya for toposort
+    //Create edges array for toposort
     const edges: [string, string][] = connections.map((conn) => [
         conn.fromNodeId,
         conn.toNodeId,

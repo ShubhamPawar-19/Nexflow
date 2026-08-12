@@ -41,20 +41,20 @@ model Session {
 }
 
 model Account {
-  id                    String    @id
-  accountId             String
-  providerId            String
-  userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  accessToken           String?
-  refreshToken          String?
-  idToken               String?
-  accessTokenExpiresAt  DateTime?
+  id                   String    @id
+  accountId            String
+  providerId           String
+  userId               String
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken          String?
+  refreshToken         String?
+  idToken              String?
+  accessTokenExpiresAt DateTime?
   refreshTokenExpiresAt DateTime?
-  scope                 String?
-  password              String?
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+  scope                String?
+  password             String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 
   @@index([userId])
   @@map("Account")
@@ -90,13 +90,16 @@ enum CredentialType {
   OPENAI
   ANTHROPIC
   GEMINI
+
+  // NEW
+  WHATSAPP
 }
 
 model Workflow {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String       @id @default(cuid())
+  name        String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 
   nodes       Node[]
   connections Connection[]
@@ -108,15 +111,25 @@ model Workflow {
 
 enum NodeType {
   INITIAL
+
+  // Triggers
   MANUAL_TRIGGER
-  HTTP_REQUEST
   GOOGLE_FORM_TRIGGER
   STRIPE_TRIGGER
+
+  // NEW
+  WHATSAPP_TRIGGER
+
+  // Execution nodes
+  HTTP_REQUEST
   ANTHROPIC
   OPENAI
   GEMINI
   DISCORD
   SLACK
+
+  // NEW
+  WHATSAPP
 }
 
 model Node {
@@ -127,7 +140,7 @@ model Node {
   name     String
   type     NodeType
   position Json
-  data     Json     @default("{}")
+  data     Json      @default("{}")
 
   credentialId String?
   credential   Credential? @relation(fields: [credentialId], references: [id])
@@ -172,8 +185,8 @@ model Execution {
   workflow   Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
 
   status     executionStatus @default(RUNNING)
-  error      String?         @db.Text
-  errorStack String?         @db.Text
+  error      String?          @db.Text
+  errorStack String?          @db.Text
 
   startedAt   DateTime  @default(now())
   completedAt DateTime?
