@@ -9,6 +9,7 @@ import { WhatsAppNode } from "@/features/executions/components/whatsapp/node";
 import { googleFormTrigger } from "@/features/triggers/components/google-form-trigger/node";
 import { ManualTriggerNode } from "@/features/triggers/components/manual-trigger/node";
 import { StripeTriggerNode } from "@/features/triggers/components/stripe-trigger/node";
+import { WhatsAppTriggerNode } from "@/features/triggers/components/whatsapp-trigger/node";
 import { NodeType } from "@/generated/prisma/enums";
 import type { NodeTypes } from "@xyflow/react";
 
@@ -18,6 +19,8 @@ export const nodeComponents = {
     [NodeType.MANUAL_TRIGGER] : ManualTriggerNode,
     [NodeType.GOOGLE_FORM_TRIGGER] : googleFormTrigger,
     [NodeType.STRIPE_TRIGGER] : StripeTriggerNode,
+    [NodeType.WHATSAPP_TRIGGER]: WhatsAppTriggerNode,
+
     [NodeType.GEMINI] : GeminiNode,
     [NodeType.OPENAI] : OpenAiNode,
     [NodeType.ANTHROPIC] : AnthropicNode,
