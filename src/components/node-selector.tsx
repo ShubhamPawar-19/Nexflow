@@ -42,6 +42,12 @@ const triggerNode: NodeTypeOption[] = [
         description: "Runs the flow when a Stripe Event is Captured",
         icon: "/logos/stripe.svg",
     },
+    {
+    type: NodeType.WHATSAPP_TRIGGER,
+    label: "WhatsApp",
+    description: "Runs the flow when a WhatsApp message is received",
+    icon: "/logos/whatsapp.svg",
+},
 ];
 
 const executionNode: NodeTypeOption[] = [
