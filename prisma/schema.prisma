@@ -90,8 +90,7 @@ enum CredentialType {
   OPENAI
   ANTHROPIC
   GEMINI
-
-  // NEW
+  GMAIL
   WHATSAPP
 }
 
@@ -116,8 +115,6 @@ enum NodeType {
   MANUAL_TRIGGER
   GOOGLE_FORM_TRIGGER
   STRIPE_TRIGGER
-
-  // NEW
   WHATSAPP_TRIGGER
 
   // Execution nodes
@@ -127,9 +124,8 @@ enum NodeType {
   GEMINI
   DISCORD
   SLACK
-
-  // NEW
   WHATSAPP
+  GMAIL
 }
 
 model Node {
