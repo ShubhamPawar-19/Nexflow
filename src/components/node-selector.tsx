@@ -82,11 +82,17 @@ const executionNode: NodeTypeOption[] = [
         icon: "/logos/slack.svg",
     },
     {
-    type: NodeType.WHATSAPP,
-    label: "WhatsApp",
-    description: "Send a WhatsApp message",
-    icon: "/logos/whatsapp.svg",
-},
+        type: NodeType.WHATSAPP,
+        label: "WhatsApp",
+        description: "Send a WhatsApp message",
+        icon: "/logos/whatsapp.svg",
+    },
+    {
+        type: NodeType.GMAIL,
+        label: "Gmail",
+        description: "Send an email using Gmail",
+        icon: "/logos/gmail.svg",
+    },
 ];
 
 interface NodeSelectorProps {

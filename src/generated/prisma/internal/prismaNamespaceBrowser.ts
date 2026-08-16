@@ -59,7 +59,8 @@ export const ModelName = {
   Workflow: 'Workflow',
   Node: 'Node',
   Connection: 'Connection',
-  Execution: 'Execution'
+  Execution: 'Execution',
+  GmailOAuthState: 'GmailOAuthState'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -143,7 +144,8 @@ export const CredentialScalarFieldEnum = {
   type: 'type',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId'
+  userId: 'userId',
+  accountEmail: 'accountEmail'
 } as const
 
 export type CredentialScalarFieldEnum = (typeof CredentialScalarFieldEnum)[keyof typeof CredentialScalarFieldEnum]
@@ -202,6 +204,17 @@ export const ExecutionScalarFieldEnum = {
 } as const
 
 export type ExecutionScalarFieldEnum = (typeof ExecutionScalarFieldEnum)[keyof typeof ExecutionScalarFieldEnum]
+
+
+export const GmailOAuthStateScalarFieldEnum = {
+  id: 'id',
+  state: 'state',
+  userId: 'userId',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type GmailOAuthStateScalarFieldEnum = (typeof GmailOAuthStateScalarFieldEnum)[keyof typeof GmailOAuthStateScalarFieldEnum]
 
 
 export const SortOrder = {

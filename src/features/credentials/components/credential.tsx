@@ -38,6 +38,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useEffect } from "react";
+import { authClient } from "@/lib/auth-client";
 
 interface CredentialFormProps {
     initialData?: {
@@ -77,7 +78,7 @@ const formSchema = z
                     message: "Phone Number ID is required",
                 });
             }
-        } else if (!data.value?.trim()) {
+        } else if (data.type !== CredentialType.GMAIL && !data.value?.trim()) {
             ctx.addIssue({
                 code: "custom",
                 path: ["value"],
@@ -109,6 +110,11 @@ const credentialTypeOptions = [
         label: "WhatsApp",
         logo: "/logos/whatsapp.svg",
     },
+    {
+        value: CredentialType.GMAIL,
+        label: "Gmail",
+        logo: "/logos/gmail.svg",
+    },
 ];
 
 export const CredentialForm = ({
@@ -138,6 +144,7 @@ export const CredentialForm = ({
 
     const selectedType = form.watch("type");
     const isWhatsApp = selectedType === CredentialType.WHATSAPP;
+    const isGmail = selectedType === CredentialType.GMAIL;
 
     /*
      * When editing a WhatsApp credential, the backend intentionally
@@ -300,7 +307,7 @@ export const CredentialForm = ({
                             />
 
                             {/* Standard AI credentials */}
-                            {!isWhatsApp && (
+                            {!isWhatsApp && !isGmail && (
                                 <FormField
                                     control={form.control}
                                     name="value"
@@ -378,17 +385,50 @@ export const CredentialForm = ({
                                 </>
                             )}
 
+                            {/* Gmail credentials */}
+
+                            {isGmail && (
+                                <div className="space-y-3">
+                                    <div className="rounded-lg border p-4">
+                                        <p className="text-sm font-medium">
+                                            Connect your Gmail account
+                                        </p>
+
+                                        <p className="mt-1 text-sm text-muted-foreground">
+                                            Connect a Gmail account that NexFlow can use to send emails.
+                                        </p>
+
+                                        <Button
+                                            type="button"
+                                            className="mt-4"
+                                            onClick={() => {
+                                                window.location.href = "/api/gmail/oauth";
+                                            }}
+                                        >
+                                            Connect Gmail
+                                        </Button>
+                                    </div>
+
+                                    <p className="text-xs text-muted-foreground">
+                                        NexFlow only requests permission to send emails. Your Gmail
+                                        password is never shared with NexFlow.
+                                    </p>
+                                </div>
+                            )}
+
                             {/* Actions */}
                             <div className="flex gap-2">
-                                <Button
-                                    type="submit"
-                                    disabled={
-                                        createCredential.isPending ||
-                                        updateCredential.isPending
-                                    }
-                                >
-                                    {isEdit ? "Update" : "Create"}
-                                </Button>
+                                {!isGmail && (
+                                    <Button
+                                        type="submit"
+                                        disabled={
+                                            createCredential.isPending ||
+                                            updateCredential.isPending
+                                        }
+                                    >
+                                        {isEdit ? "Update" : "Create"}
+                                    </Button>
+                                )}
 
                                 <Button
                                     type="button"

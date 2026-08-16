@@ -118,6 +118,14 @@ export const credentialsRouter = createTRPCRouter({
                     orderBy: {
                         updatedAt: "desc",
                     },
+                    select: {
+                        id: true,
+                        name: true,
+                        type: true,
+                        accountEmail: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    },
                 }),
                 prisma.credential.count({
                     where: {
@@ -143,20 +151,30 @@ export const credentialsRouter = createTRPCRouter({
                 hasPreviousPage,
             };
         }),
+        
     getByType: protectedProcedure
-        .input(
-            z.object({
-                type: z.enum(CredentialType),
-            })
-        )
-        .query(({ input, ctx }) => {
-            const { type } = input;
-
-            return prisma.credential.findMany({
-                where: { type, userId: ctx.auth.user.id },
-                orderBy: {
-                    updatedAt: "desc",
-                },
-            })
+    .input(
+        z.object({
+            type: z.enum(CredentialType),
         })
+    )
+    .query(({ input, ctx }) => {
+        return prisma.credential.findMany({
+            where: {
+                type: input.type,
+                userId: ctx.auth.user.id,
+            },
+            orderBy: {
+                updatedAt: "desc",
+            },
+            select: {
+                id: true,
+                name: true,
+                type: true,
+                accountEmail: true,
+                createdAt: true,
+                updatedAt: true,
+            },
+        });
+    }),
 });

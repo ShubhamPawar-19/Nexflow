@@ -84,6 +84,8 @@ model Credential {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   Node Node[]
+
+  accountEmail String?
 }
 
 enum CredentialType {
@@ -190,4 +192,15 @@ model Execution {
   inngestEventId String @unique
 
   output Json?
+}
+
+model GmailOAuthState {
+  id        String   @id @default(cuid())
+  state     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
 }

@@ -13,6 +13,7 @@ export const CredentialType = {
   OPENAI: 'OPENAI',
   ANTHROPIC: 'ANTHROPIC',
   GEMINI: 'GEMINI',
+  GMAIL: 'GMAIL',
   WHATSAPP: 'WHATSAPP'
 } as const
 

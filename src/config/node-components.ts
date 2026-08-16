@@ -2,6 +2,7 @@ import { InitialNode } from "@/components/initial-node";
 import { AnthropicNode } from "@/features/executions/components/anthropic/node";
 import { DiscordNode } from "@/features/executions/components/discord/node";
 import { GeminiNode } from "@/features/executions/components/gemini/node";
+import { GmailNode } from "@/features/executions/components/gmail/node";
 import { HttpRequestNode } from "@/features/executions/components/http-request/node";
 import { OpenAiNode } from "@/features/executions/components/openai/node";
 import { SlackNode } from "@/features/executions/components/slack/node";
@@ -13,17 +14,18 @@ import { NodeType } from "@/generated/prisma/enums";
 import type { NodeTypes } from "@xyflow/react";
 
 export const nodeComponents = {
-    [NodeType.INITIAL] : InitialNode,
-    [NodeType.HTTP_REQUEST] : HttpRequestNode,
-    [NodeType.MANUAL_TRIGGER] : ManualTriggerNode,
-    [NodeType.GOOGLE_FORM_TRIGGER] : googleFormTrigger,
-    [NodeType.STRIPE_TRIGGER] : StripeTriggerNode,
-    [NodeType.GEMINI] : GeminiNode,
-    [NodeType.OPENAI] : OpenAiNode,
-    [NodeType.ANTHROPIC] : AnthropicNode,
-    [NodeType.DISCORD] : DiscordNode,
-    [NodeType.SLACK] : SlackNode,
+    [NodeType.INITIAL]: InitialNode,
+    [NodeType.HTTP_REQUEST]: HttpRequestNode,
+    [NodeType.MANUAL_TRIGGER]: ManualTriggerNode,
+    [NodeType.GOOGLE_FORM_TRIGGER]: googleFormTrigger,
+    [NodeType.STRIPE_TRIGGER]: StripeTriggerNode,
+    [NodeType.GEMINI]: GeminiNode,
+    [NodeType.OPENAI]: OpenAiNode,
+    [NodeType.ANTHROPIC]: AnthropicNode,
+    [NodeType.DISCORD]: DiscordNode,
+    [NodeType.SLACK]: SlackNode,
     [NodeType.WHATSAPP]: WhatsAppNode,
+    [NodeType.GMAIL]: GmailNode,
 } as const satisfies NodeTypes;
 
 export type RegistrationNodeType = keyof typeof nodeComponents;
