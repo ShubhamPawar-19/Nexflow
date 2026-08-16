@@ -32,6 +32,7 @@ export type CredentialMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   userId: string | null
+  accountEmail: string | null
 }
 
 export type CredentialMaxAggregateOutputType = {
@@ -42,6 +43,7 @@ export type CredentialMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   userId: string | null
+  accountEmail: string | null
 }
 
 export type CredentialCountAggregateOutputType = {
@@ -52,6 +54,7 @@ export type CredentialCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   userId: number
+  accountEmail: number
   _all: number
 }
 
@@ -64,6 +67,7 @@ export type CredentialMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   userId?: true
+  accountEmail?: true
 }
 
 export type CredentialMaxAggregateInputType = {
@@ -74,6 +78,7 @@ export type CredentialMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   userId?: true
+  accountEmail?: true
 }
 
 export type CredentialCountAggregateInputType = {
@@ -84,6 +89,7 @@ export type CredentialCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   userId?: true
+  accountEmail?: true
   _all?: true
 }
 
@@ -167,6 +173,7 @@ export type CredentialGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   userId: string
+  accountEmail: string | null
   _count: CredentialCountAggregateOutputType | null
   _min: CredentialMinAggregateOutputType | null
   _max: CredentialMaxAggregateOutputType | null
@@ -198,6 +205,7 @@ export type CredentialWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Credential"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Credential"> | Date | string
   userId?: Prisma.StringFilter<"Credential"> | string
+  accountEmail?: Prisma.StringNullableFilter<"Credential"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   Node?: Prisma.NodeListRelationFilter
 }
@@ -210,6 +218,7 @@ export type CredentialOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  accountEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   Node?: Prisma.NodeOrderByRelationAggregateInput
 }
@@ -225,6 +234,7 @@ export type CredentialWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Credential"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Credential"> | Date | string
   userId?: Prisma.StringFilter<"Credential"> | string
+  accountEmail?: Prisma.StringNullableFilter<"Credential"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   Node?: Prisma.NodeListRelationFilter
 }, "id">
@@ -237,6 +247,7 @@ export type CredentialOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  accountEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.CredentialCountOrderByAggregateInput
   _max?: Prisma.CredentialMaxOrderByAggregateInput
   _min?: Prisma.CredentialMinOrderByAggregateInput
@@ -253,6 +264,7 @@ export type CredentialScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Credential"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Credential"> | Date | string
   userId?: Prisma.StringWithAggregatesFilter<"Credential"> | string
+  accountEmail?: Prisma.StringNullableWithAggregatesFilter<"Credential"> | string | null
 }
 
 export type CredentialCreateInput = {
@@ -262,6 +274,7 @@ export type CredentialCreateInput = {
   type: $Enums.CredentialType
   createdAt?: Date | string
   updatedAt?: Date | string
+  accountEmail?: string | null
   user: Prisma.UserCreateNestedOneWithoutCredentialsInput
   Node?: Prisma.NodeCreateNestedManyWithoutCredentialInput
 }
@@ -274,6 +287,7 @@ export type CredentialUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
+  accountEmail?: string | null
   Node?: Prisma.NodeUncheckedCreateNestedManyWithoutCredentialInput
 }
 
@@ -284,6 +298,7 @@ export type CredentialUpdateInput = {
   type?: Prisma.EnumCredentialTypeFieldUpdateOperationsInput | $Enums.CredentialType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accountEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutCredentialsNestedInput
   Node?: Prisma.NodeUpdateManyWithoutCredentialNestedInput
 }
@@ -296,6 +311,7 @@ export type CredentialUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  accountEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Node?: Prisma.NodeUncheckedUpdateManyWithoutCredentialNestedInput
 }
 
@@ -307,6 +323,7 @@ export type CredentialCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
+  accountEmail?: string | null
 }
 
 export type CredentialUpdateManyMutationInput = {
@@ -316,6 +333,7 @@ export type CredentialUpdateManyMutationInput = {
   type?: Prisma.EnumCredentialTypeFieldUpdateOperationsInput | $Enums.CredentialType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accountEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CredentialUncheckedUpdateManyInput = {
@@ -326,6 +344,7 @@ export type CredentialUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  accountEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CredentialListRelationFilter = {
@@ -346,6 +365,7 @@ export type CredentialCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  accountEmail?: Prisma.SortOrder
 }
 
 export type CredentialMaxOrderByAggregateInput = {
@@ -356,6 +376,7 @@ export type CredentialMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  accountEmail?: Prisma.SortOrder
 }
 
 export type CredentialMinOrderByAggregateInput = {
@@ -366,6 +387,7 @@ export type CredentialMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  accountEmail?: Prisma.SortOrder
 }
 
 export type CredentialNullableScalarRelationFilter = {
@@ -442,6 +464,7 @@ export type CredentialCreateWithoutUserInput = {
   type: $Enums.CredentialType
   createdAt?: Date | string
   updatedAt?: Date | string
+  accountEmail?: string | null
   Node?: Prisma.NodeCreateNestedManyWithoutCredentialInput
 }
 
@@ -452,6 +475,7 @@ export type CredentialUncheckedCreateWithoutUserInput = {
   type: $Enums.CredentialType
   createdAt?: Date | string
   updatedAt?: Date | string
+  accountEmail?: string | null
   Node?: Prisma.NodeUncheckedCreateNestedManyWithoutCredentialInput
 }
 
@@ -492,6 +516,7 @@ export type CredentialScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Credential"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Credential"> | Date | string
   userId?: Prisma.StringFilter<"Credential"> | string
+  accountEmail?: Prisma.StringNullableFilter<"Credential"> | string | null
 }
 
 export type CredentialCreateWithoutNodeInput = {
@@ -501,6 +526,7 @@ export type CredentialCreateWithoutNodeInput = {
   type: $Enums.CredentialType
   createdAt?: Date | string
   updatedAt?: Date | string
+  accountEmail?: string | null
   user: Prisma.UserCreateNestedOneWithoutCredentialsInput
 }
 
@@ -512,6 +538,7 @@ export type CredentialUncheckedCreateWithoutNodeInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
+  accountEmail?: string | null
 }
 
 export type CredentialCreateOrConnectWithoutNodeInput = {
@@ -537,6 +564,7 @@ export type CredentialUpdateWithoutNodeInput = {
   type?: Prisma.EnumCredentialTypeFieldUpdateOperationsInput | $Enums.CredentialType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accountEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutCredentialsNestedInput
 }
 
@@ -548,6 +576,7 @@ export type CredentialUncheckedUpdateWithoutNodeInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  accountEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CredentialCreateManyUserInput = {
@@ -557,6 +586,7 @@ export type CredentialCreateManyUserInput = {
   type: $Enums.CredentialType
   createdAt?: Date | string
   updatedAt?: Date | string
+  accountEmail?: string | null
 }
 
 export type CredentialUpdateWithoutUserInput = {
@@ -566,6 +596,7 @@ export type CredentialUpdateWithoutUserInput = {
   type?: Prisma.EnumCredentialTypeFieldUpdateOperationsInput | $Enums.CredentialType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accountEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Node?: Prisma.NodeUpdateManyWithoutCredentialNestedInput
 }
 
@@ -576,6 +607,7 @@ export type CredentialUncheckedUpdateWithoutUserInput = {
   type?: Prisma.EnumCredentialTypeFieldUpdateOperationsInput | $Enums.CredentialType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accountEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Node?: Prisma.NodeUncheckedUpdateManyWithoutCredentialNestedInput
 }
 
@@ -586,6 +618,7 @@ export type CredentialUncheckedUpdateManyWithoutUserInput = {
   type?: Prisma.EnumCredentialTypeFieldUpdateOperationsInput | $Enums.CredentialType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accountEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -627,6 +660,7 @@ export type CredentialSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  accountEmail?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   Node?: boolean | Prisma.Credential$NodeArgs<ExtArgs>
   _count?: boolean | Prisma.CredentialCountOutputTypeDefaultArgs<ExtArgs>
@@ -640,6 +674,7 @@ export type CredentialSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  accountEmail?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["credential"]>
 
@@ -651,6 +686,7 @@ export type CredentialSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  accountEmail?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["credential"]>
 
@@ -662,9 +698,10 @@ export type CredentialSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
+  accountEmail?: boolean
 }
 
-export type CredentialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "value" | "type" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["credential"]>
+export type CredentialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "value" | "type" | "createdAt" | "updatedAt" | "userId" | "accountEmail", ExtArgs["result"]["credential"]>
 export type CredentialInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   Node?: boolean | Prisma.Credential$NodeArgs<ExtArgs>
@@ -691,6 +728,7 @@ export type $CredentialPayload<ExtArgs extends runtime.Types.Extensions.Internal
     createdAt: Date
     updatedAt: Date
     userId: string
+    accountEmail: string | null
   }, ExtArgs["result"]["credential"]>
   composites: {}
 }
@@ -1123,6 +1161,7 @@ export interface CredentialFieldRefs {
   readonly createdAt: Prisma.FieldRef<"Credential", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Credential", 'DateTime'>
   readonly userId: Prisma.FieldRef<"Credential", 'String'>
+  readonly accountEmail: Prisma.FieldRef<"Credential", 'String'>
 }
     
 

@@ -13,6 +13,7 @@ export const CredentialType = {
   OPENAI: 'OPENAI',
   ANTHROPIC: 'ANTHROPIC',
   GEMINI: 'GEMINI',
+  GMAIL: 'GMAIL',
   WHATSAPP: 'WHATSAPP'
 } as const
 
@@ -31,7 +32,8 @@ export const NodeType = {
   GEMINI: 'GEMINI',
   DISCORD: 'DISCORD',
   SLACK: 'SLACK',
-  WHATSAPP: 'WHATSAPP'
+  WHATSAPP: 'WHATSAPP',
+  GMAIL: 'GMAIL'
 } as const
 
 export type NodeType = (typeof NodeType)[keyof typeof NodeType]

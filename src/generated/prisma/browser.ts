@@ -62,3 +62,8 @@ export type Connection = Prisma.ConnectionModel
  * 
  */
 export type Execution = Prisma.ExecutionModel
+/**
+ * Model GmailOAuthState
+ * 
+ */
+export type GmailOAuthState = Prisma.GmailOAuthStateModel
