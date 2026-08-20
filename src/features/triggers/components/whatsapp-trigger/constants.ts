@@ -1,0 +1,1 @@
+export const WHATSAPP_TRIGGER_VARIABLE = "whatsapp";
