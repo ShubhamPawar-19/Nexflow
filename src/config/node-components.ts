@@ -10,6 +10,7 @@ import { WhatsAppNode } from "@/features/executions/components/whatsapp/node";
 import { googleFormTrigger } from "@/features/triggers/components/google-form-trigger/node";
 import { ManualTriggerNode } from "@/features/triggers/components/manual-trigger/node";
 import { StripeTriggerNode } from "@/features/triggers/components/stripe-trigger/node";
+import { WhatsAppTriggerNode } from "@/features/triggers/components/whatsapp-trigger/node";
 import { NodeType } from "@/generated/prisma/enums";
 import type { NodeTypes } from "@xyflow/react";
 
@@ -25,6 +26,7 @@ export const nodeComponents = {
     [NodeType.DISCORD]: DiscordNode,
     [NodeType.SLACK]: SlackNode,
     [NodeType.WHATSAPP]: WhatsAppNode,
+    [NodeType.WHATSAPP_TRIGGER]: WhatsAppTriggerNode,
     [NodeType.GMAIL]: GmailNode,
 } as const satisfies NodeTypes;
 
