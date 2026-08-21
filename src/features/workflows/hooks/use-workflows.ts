@@ -126,3 +126,64 @@ export const useExecuteWorkflow = () => {
     }),
 );
 };
+
+// Hook to activate a workflow
+
+export const useActivateWorkflow = () => {
+    const trpc = useTRPC();
+    const queryClient = useQueryClient();
+
+    return useMutation(
+        trpc.workflows.activate.mutationOptions({
+            onSuccess: (data) => {
+                toast.success(`Workflow "${data.name}" activated`);
+
+                queryClient.invalidateQueries(
+                    trpc.workflows.getOne.queryOptions({
+                        id: data.id,
+                    }),
+                );
+
+                queryClient.invalidateQueries(
+                    trpc.workflows.getMany.queryOptions({}),
+                );
+            },
+            onError: (error) => {
+                toast.error(
+                    `Failed to activate workflow: ${error.message}`,
+                );
+            },
+        }),
+    );
+};
+
+
+// Hook to deactivate a workflow
+
+export const useDeactivateWorkflow = () => {
+    const trpc = useTRPC();
+    const queryClient = useQueryClient();
+
+    return useMutation(
+        trpc.workflows.deactivate.mutationOptions({
+            onSuccess: (data) => {
+                toast.success(`Workflow "${data.name}" deactivated`);
+
+                queryClient.invalidateQueries(
+                    trpc.workflows.getOne.queryOptions({
+                        id: data.id,
+                    }),
+                );
+
+                queryClient.invalidateQueries(
+                    trpc.workflows.getMany.queryOptions({}),
+                );
+            },
+            onError: (error) => {
+                toast.error(
+                    `Failed to deactivate workflow: ${error.message}`,
+                );
+            },
+        }),
+    );
+};

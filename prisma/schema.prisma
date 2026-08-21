@@ -99,6 +99,8 @@ enum CredentialType {
 model Workflow {
   id          String       @id @default(cuid())
   name        String
+  isActive    Boolean      @default(false)
+  
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 
@@ -118,6 +120,7 @@ enum NodeType {
   GOOGLE_FORM_TRIGGER
   STRIPE_TRIGGER
   WHATSAPP_TRIGGER
+  GMAIL_TRIGGER
 
   // Execution nodes
   HTTP_REQUEST

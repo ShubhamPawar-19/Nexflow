@@ -25,6 +25,7 @@ import { useSetAtom } from 'jotai';
 import { editorAtom } from '../store/atom';
 import { NodeType } from '@/generated/prisma/enums';
 import { ExecuteWorkflowButton } from './execute-workflow-button';
+import { WorkflowActivationButton } from './workflow-activation-button';
 
 
 
@@ -87,11 +88,17 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
                 <Controls />
                 <MiniMap />
                 <Panel position="top-right">
-                    <AddNodeButton />
+                    <div className="flex items-center gap-2">
+                        <AddNodeButton />
+                    </div>
                 </Panel>
-                {hasManualTrigger && (
+                {hasManualTrigger ? (
                     <Panel position="bottom-center">
                         <ExecuteWorkflowButton workflowId={workflowId} />
+                    </Panel>
+                ) : (
+                    <Panel position="bottom-center">
+                        <WorkflowActivationButton workflowId={workflowId} />
                     </Panel>
                 )}
             </ReactFlow>

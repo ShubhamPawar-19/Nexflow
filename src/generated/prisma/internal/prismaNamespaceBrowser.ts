@@ -154,6 +154,7 @@ export type CredentialScalarFieldEnum = (typeof CredentialScalarFieldEnum)[keyof
 export const WorkflowScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId'

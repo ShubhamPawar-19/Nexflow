@@ -27,6 +27,7 @@ export type AggregateWorkflow = {
 export type WorkflowMinAggregateOutputType = {
   id: string | null
   name: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   userId: string | null
@@ -35,6 +36,7 @@ export type WorkflowMinAggregateOutputType = {
 export type WorkflowMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   userId: string | null
@@ -43,6 +45,7 @@ export type WorkflowMaxAggregateOutputType = {
 export type WorkflowCountAggregateOutputType = {
   id: number
   name: number
+  isActive: number
   createdAt: number
   updatedAt: number
   userId: number
@@ -53,6 +56,7 @@ export type WorkflowCountAggregateOutputType = {
 export type WorkflowMinAggregateInputType = {
   id?: true
   name?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
   userId?: true
@@ -61,6 +65,7 @@ export type WorkflowMinAggregateInputType = {
 export type WorkflowMaxAggregateInputType = {
   id?: true
   name?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
   userId?: true
@@ -69,6 +74,7 @@ export type WorkflowMaxAggregateInputType = {
 export type WorkflowCountAggregateInputType = {
   id?: true
   name?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
   userId?: true
@@ -150,6 +156,7 @@ export type WorkflowGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type WorkflowGroupByOutputType = {
   id: string
   name: string
+  isActive: boolean
   createdAt: Date
   updatedAt: Date
   userId: string
@@ -179,6 +186,7 @@ export type WorkflowWhereInput = {
   NOT?: Prisma.WorkflowWhereInput | Prisma.WorkflowWhereInput[]
   id?: Prisma.StringFilter<"Workflow"> | string
   name?: Prisma.StringFilter<"Workflow"> | string
+  isActive?: Prisma.BoolFilter<"Workflow"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   userId?: Prisma.StringFilter<"Workflow"> | string
@@ -191,6 +199,7 @@ export type WorkflowWhereInput = {
 export type WorkflowOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -206,6 +215,7 @@ export type WorkflowWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.WorkflowWhereInput[]
   NOT?: Prisma.WorkflowWhereInput | Prisma.WorkflowWhereInput[]
   name?: Prisma.StringFilter<"Workflow"> | string
+  isActive?: Prisma.BoolFilter<"Workflow"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   userId?: Prisma.StringFilter<"Workflow"> | string
@@ -218,6 +228,7 @@ export type WorkflowWhereUniqueInput = Prisma.AtLeast<{
 export type WorkflowOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -232,6 +243,7 @@ export type WorkflowScalarWhereWithAggregatesInput = {
   NOT?: Prisma.WorkflowScalarWhereWithAggregatesInput | Prisma.WorkflowScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Workflow"> | string
   name?: Prisma.StringWithAggregatesFilter<"Workflow"> | string
+  isActive?: Prisma.BoolWithAggregatesFilter<"Workflow"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Workflow"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Workflow"> | Date | string
   userId?: Prisma.StringWithAggregatesFilter<"Workflow"> | string
@@ -240,6 +252,7 @@ export type WorkflowScalarWhereWithAggregatesInput = {
 export type WorkflowCreateInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   nodes?: Prisma.NodeCreateNestedManyWithoutWorkflowInput
@@ -251,6 +264,7 @@ export type WorkflowCreateInput = {
 export type WorkflowUncheckedCreateInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
@@ -262,6 +276,7 @@ export type WorkflowUncheckedCreateInput = {
 export type WorkflowUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nodes?: Prisma.NodeUpdateManyWithoutWorkflowNestedInput
@@ -273,6 +288,7 @@ export type WorkflowUpdateInput = {
 export type WorkflowUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -284,6 +300,7 @@ export type WorkflowUncheckedUpdateInput = {
 export type WorkflowCreateManyInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
@@ -292,6 +309,7 @@ export type WorkflowCreateManyInput = {
 export type WorkflowUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -299,6 +317,7 @@ export type WorkflowUpdateManyMutationInput = {
 export type WorkflowUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -317,6 +336,7 @@ export type WorkflowOrderByRelationAggregateInput = {
 export type WorkflowCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -325,6 +345,7 @@ export type WorkflowCountOrderByAggregateInput = {
 export type WorkflowMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -333,6 +354,7 @@ export type WorkflowMaxOrderByAggregateInput = {
 export type WorkflowMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -430,6 +452,7 @@ export type WorkflowUpdateOneRequiredWithoutExecutionsNestedInput = {
 export type WorkflowCreateWithoutUserInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   nodes?: Prisma.NodeCreateNestedManyWithoutWorkflowInput
@@ -440,6 +463,7 @@ export type WorkflowCreateWithoutUserInput = {
 export type WorkflowUncheckedCreateWithoutUserInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   nodes?: Prisma.NodeUncheckedCreateNestedManyWithoutWorkflowInput
@@ -479,6 +503,7 @@ export type WorkflowScalarWhereInput = {
   NOT?: Prisma.WorkflowScalarWhereInput | Prisma.WorkflowScalarWhereInput[]
   id?: Prisma.StringFilter<"Workflow"> | string
   name?: Prisma.StringFilter<"Workflow"> | string
+  isActive?: Prisma.BoolFilter<"Workflow"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Workflow"> | Date | string
   userId?: Prisma.StringFilter<"Workflow"> | string
@@ -487,6 +512,7 @@ export type WorkflowScalarWhereInput = {
 export type WorkflowCreateWithoutNodesInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   connections?: Prisma.ConnectionCreateNestedManyWithoutWorkflowInput
@@ -497,6 +523,7 @@ export type WorkflowCreateWithoutNodesInput = {
 export type WorkflowUncheckedCreateWithoutNodesInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
@@ -523,6 +550,7 @@ export type WorkflowUpdateToOneWithWhereWithoutNodesInput = {
 export type WorkflowUpdateWithoutNodesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   connections?: Prisma.ConnectionUpdateManyWithoutWorkflowNestedInput
@@ -533,6 +561,7 @@ export type WorkflowUpdateWithoutNodesInput = {
 export type WorkflowUncheckedUpdateWithoutNodesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -543,6 +572,7 @@ export type WorkflowUncheckedUpdateWithoutNodesInput = {
 export type WorkflowCreateWithoutConnectionsInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   nodes?: Prisma.NodeCreateNestedManyWithoutWorkflowInput
@@ -553,6 +583,7 @@ export type WorkflowCreateWithoutConnectionsInput = {
 export type WorkflowUncheckedCreateWithoutConnectionsInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
@@ -579,6 +610,7 @@ export type WorkflowUpdateToOneWithWhereWithoutConnectionsInput = {
 export type WorkflowUpdateWithoutConnectionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nodes?: Prisma.NodeUpdateManyWithoutWorkflowNestedInput
@@ -589,6 +621,7 @@ export type WorkflowUpdateWithoutConnectionsInput = {
 export type WorkflowUncheckedUpdateWithoutConnectionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -599,6 +632,7 @@ export type WorkflowUncheckedUpdateWithoutConnectionsInput = {
 export type WorkflowCreateWithoutExecutionsInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   nodes?: Prisma.NodeCreateNestedManyWithoutWorkflowInput
@@ -609,6 +643,7 @@ export type WorkflowCreateWithoutExecutionsInput = {
 export type WorkflowUncheckedCreateWithoutExecutionsInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
@@ -635,6 +670,7 @@ export type WorkflowUpdateToOneWithWhereWithoutExecutionsInput = {
 export type WorkflowUpdateWithoutExecutionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nodes?: Prisma.NodeUpdateManyWithoutWorkflowNestedInput
@@ -645,6 +681,7 @@ export type WorkflowUpdateWithoutExecutionsInput = {
 export type WorkflowUncheckedUpdateWithoutExecutionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -655,6 +692,7 @@ export type WorkflowUncheckedUpdateWithoutExecutionsInput = {
 export type WorkflowCreateManyUserInput = {
   id?: string
   name: string
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -662,6 +700,7 @@ export type WorkflowCreateManyUserInput = {
 export type WorkflowUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nodes?: Prisma.NodeUpdateManyWithoutWorkflowNestedInput
@@ -672,6 +711,7 @@ export type WorkflowUpdateWithoutUserInput = {
 export type WorkflowUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nodes?: Prisma.NodeUncheckedUpdateManyWithoutWorkflowNestedInput
@@ -682,6 +722,7 @@ export type WorkflowUncheckedUpdateWithoutUserInput = {
 export type WorkflowUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -738,6 +779,7 @@ export type WorkflowCountOutputTypeCountExecutionsArgs<ExtArgs extends runtime.T
 export type WorkflowSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
@@ -751,6 +793,7 @@ export type WorkflowSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type WorkflowSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
@@ -760,6 +803,7 @@ export type WorkflowSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type WorkflowSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
@@ -769,12 +813,13 @@ export type WorkflowSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type WorkflowSelectScalar = {
   id?: boolean
   name?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
 }
 
-export type WorkflowOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["workflow"]>
+export type WorkflowOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "isActive" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["workflow"]>
 export type WorkflowInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   nodes?: boolean | Prisma.Workflow$nodesArgs<ExtArgs>
   connections?: boolean | Prisma.Workflow$connectionsArgs<ExtArgs>
@@ -800,6 +845,7 @@ export type $WorkflowPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
     userId: string
@@ -1232,6 +1278,7 @@ export interface Prisma__WorkflowClient<T, Null = never, ExtArgs extends runtime
 export interface WorkflowFieldRefs {
   readonly id: Prisma.FieldRef<"Workflow", 'String'>
   readonly name: Prisma.FieldRef<"Workflow", 'String'>
+  readonly isActive: Prisma.FieldRef<"Workflow", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Workflow", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Workflow", 'DateTime'>
   readonly userId: Prisma.FieldRef<"Workflow", 'String'>
