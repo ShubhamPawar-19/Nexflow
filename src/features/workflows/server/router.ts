@@ -32,18 +32,58 @@ export const workflowsRouter = createTRPCRouter({
         }),
 
     activate: protectedProcedure
-        .input(z.object({ id: z.string() }))
-        .mutation(async ({ ctx, input }) => {
-            return prisma.workflow.update({
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+        const workflow = await prisma.workflow.findFirstOrThrow({
+            where: {
+                id: input.id,
+                userId: ctx.auth.user.id,
+            },
+            include: {
+                nodes: true,
+            },
+        });
+
+        const gmailTrigger = workflow.nodes.find(
+            (node) => node.type === NodeType.GMAIL_TRIGGER,
+        );
+
+        if (gmailTrigger) {
+            const data = gmailTrigger.data as {
+                credentialId?: string;
+            };
+
+            if (!data.credentialId) {
+                throw new Error(
+                    "Gmail Trigger is not configured. Please select a Gmail account.",
+                );
+            }
+
+            const credential = await prisma.credential.findFirst({
                 where: {
-                    id: input.id,
+                    id: data.credentialId,
                     userId: ctx.auth.user.id,
-                },
-                data: {
-                    isActive: true,
+                    type: "GMAIL",
                 },
             });
-        }),
+
+            if (!credential) {
+                throw new Error(
+                    "Gmail Trigger credential was not found.",
+                );
+            }
+        }
+
+        return prisma.workflow.update({
+            where: {
+                id: input.id,
+                userId: ctx.auth.user.id,
+            },
+            data: {
+                isActive: true,
+            },
+        });
+    }),
 
     deactivate: protectedProcedure
         .input(z.object({ id: z.string() }))
