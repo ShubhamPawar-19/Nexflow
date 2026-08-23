@@ -7,6 +7,8 @@ import { NodeType } from "@/generated/prisma/enums";
 import type { Edge, Node } from "@xyflow/react";
 import { inngest } from "@/inngest/client";
 import { sendWorkflowExecution } from "@/inngest/utils";
+import { decrypt } from "@/lib/encryption";
+import { setupGmailWatch } from "@/lib/gmail/watch";
 
 export const workflowsRouter = createTRPCRouter({
     execute: protectedProcedure
@@ -34,7 +36,7 @@ export const workflowsRouter = createTRPCRouter({
     activate: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
-        const workflow = await prisma.workflow.findFirstOrThrow({
+        const workflow = await prisma.workflow.findUniqueOrThrow({
             where: {
                 id: input.id,
                 userId: ctx.auth.user.id,
@@ -49,29 +51,13 @@ export const workflowsRouter = createTRPCRouter({
         );
 
         if (gmailTrigger) {
-            const data = gmailTrigger.data as {
-                credentialId?: string;
-            };
-
-            if (!data.credentialId) {
+            if (!gmailTrigger.credentialId) {
                 throw new Error(
-                    "Gmail Trigger is not configured. Please select a Gmail account.",
+                    "Gmail trigger does not have a Gmail account configured",
                 );
             }
 
-            const credential = await prisma.credential.findFirst({
-                where: {
-                    id: data.credentialId,
-                    userId: ctx.auth.user.id,
-                    type: "GMAIL",
-                },
-            });
-
-            if (!credential) {
-                throw new Error(
-                    "Gmail Trigger credential was not found.",
-                );
-            }
+            await setupGmailWatch(gmailTrigger.credentialId);
         }
 
         return prisma.workflow.update({

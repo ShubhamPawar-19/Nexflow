@@ -73,21 +73,21 @@ model Verification {
 }
 
 model Credential {
-  id        String         @id @default(cuid())
-  name      String
-  value     String
-  type      CredentialType
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  Node Node[]
-
+  id           String         @id @default(cuid())
+  name         String
+  value        String
+  type         CredentialType
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  userId       String
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Node         Node[]
   accountEmail String?
-}
 
+  // Gmail watch information
+  gmailWatchExpiration DateTime?
+  gmailHistoryId       String?
+}
 enum CredentialType {
   OPENAI
   ANTHROPIC

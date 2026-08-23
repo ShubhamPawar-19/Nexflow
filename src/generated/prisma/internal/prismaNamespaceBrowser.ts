@@ -145,7 +145,9 @@ export const CredentialScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId',
-  accountEmail: 'accountEmail'
+  accountEmail: 'accountEmail',
+  gmailWatchExpiration: 'gmailWatchExpiration',
+  gmailHistoryId: 'gmailHistoryId'
 } as const
 
 export type CredentialScalarFieldEnum = (typeof CredentialScalarFieldEnum)[keyof typeof CredentialScalarFieldEnum]
