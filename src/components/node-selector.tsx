@@ -48,6 +48,12 @@ const triggerNode: NodeTypeOption[] = [
         description: "Runs the flow when a WhatsApp message is received",
         icon: "/logos/whatsapp.svg",
     },
+    {
+        type: NodeType.GMAIL_TRIGGER,
+        label: "Gmail",
+        description: "When a new email arrives",
+        icon: "/logos/gmail.svg",
+    }
 ];
 
 const executionNode: NodeTypeOption[] = [

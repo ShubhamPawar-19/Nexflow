@@ -42,13 +42,6 @@ export const gmailFormSchema = z.object({
     to: z.string().min(1, "Recipient is required"),
     subject: z.string().min(1, "Subject is required"),
     body: z.string().min(1, "Email body is required"),
-    variableName: z
-        .string()
-        .min(1, "Variable name is required")
-        .regex(
-            /^[a-zA-Z_][a-zA-Z0-9_]*$/,
-            "Use only letters, numbers, and underscores",
-        ),
 });
 
 export type GmailFormValues = z.infer<typeof gmailFormSchema>;
@@ -60,7 +53,7 @@ interface GmailDialogProps {
     defaultValues?: Partial<GmailFormValues>;
 }
 
-export const GmailDialog = ({
+export const GmailTriggerDialog = ({
     open,
     onOpenChange,
     onSubmit,
@@ -76,7 +69,6 @@ export const GmailDialog = ({
             to: defaultValues?.to || "",
             subject: defaultValues?.subject || "",
             body: defaultValues?.body || "",
-            variableName: defaultValues?.variableName || "emailResult",
         },
     });
 
@@ -88,7 +80,6 @@ export const GmailDialog = ({
             to: defaultValues?.to || "",
             subject: defaultValues?.subject || "",
             body: defaultValues?.body || "",
-            variableName: defaultValues?.variableName || "emailResult",
         });
     }, [open, defaultValues, form]);
 
@@ -220,7 +211,7 @@ export const GmailDialog = ({
                                         <FormControl>
                                             <Textarea
                                                 placeholder="Hello, welcome to NexFlow!"
-                                                className="min-h-37.5 w-full resize-none whitespace-pre-wrap break-words"
+                                                className="min-h-37.5 w-full resize-none whitespace-pre-wrap wrap-break-word"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -231,29 +222,6 @@ export const GmailDialog = ({
                             />
                         </div>
 
-                        <FormField
-                            control={form.control}
-                            name="variableName"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Variable Name</FormLabel>
-
-                                    <FormControl>
-                                        <Input
-                                            placeholder="emailResult"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-
-                                    <p className="text-xs text-muted-foreground">
-                                        Use this name to access the email result in later nodes,
-                                        for example: {"{{emailResult.messageId}}"}
-                                    </p>
-                                </FormItem>
-                            )}
-                        />
                         {/* Footer */}
                         <div className="border-t bg-background px-6 py-4">
                             <div className="flex justify-end gap-2">

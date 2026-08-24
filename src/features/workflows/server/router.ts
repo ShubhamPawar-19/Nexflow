@@ -7,6 +7,8 @@ import { NodeType } from "@/generated/prisma/enums";
 import type { Edge, Node } from "@xyflow/react";
 import { inngest } from "@/inngest/client";
 import { sendWorkflowExecution } from "@/inngest/utils";
+import { decrypt } from "@/lib/encryption";
+import { setupGmailWatch } from "@/lib/gmail/watch";
 
 export const workflowsRouter = createTRPCRouter({
     execute: protectedProcedure
@@ -34,6 +36,30 @@ export const workflowsRouter = createTRPCRouter({
     activate: protectedProcedure
         .input(z.object({ id: z.string() }))
         .mutation(async ({ ctx, input }) => {
+            const workflow = await prisma.workflow.findUniqueOrThrow({
+                where: {
+                    id: input.id,
+                    userId: ctx.auth.user.id,
+                },
+                include: {
+                    nodes: true,
+                },
+            });
+
+            const gmailTrigger = workflow.nodes.find(
+                (node) => node.type === NodeType.GMAIL_TRIGGER,
+            );
+
+            if (gmailTrigger) {
+                if (!gmailTrigger.credentialId) {
+                    throw new Error(
+                        "Gmail trigger does not have a Gmail account configured",
+                    );
+                }
+
+                await setupGmailWatch(gmailTrigger.credentialId);
+            }
+
             return prisma.workflow.update({
                 where: {
                     id: input.id,
@@ -123,7 +149,7 @@ export const workflowsRouter = createTRPCRouter({
                     where: { workflowId: id },
                 });
 
-                //Create nodes
+                // Create nodes
                 await tx.node.createMany({
                     data: nodes.map((node) => ({
                         id: node.id,
@@ -132,6 +158,12 @@ export const workflowsRouter = createTRPCRouter({
                         type: node.type as NodeType,
                         position: node.position,
                         data: node.data || {},
+
+                        // Save credential ID to Node.credentialId
+                        credentialId:
+                            typeof node.data?.credentialId === "string"
+                                ? node.data.credentialId
+                                : null,
                     })),
                 });
 

@@ -393,7 +393,8 @@ export const ModelName = {
   Node: 'Node',
   Connection: 'Connection',
   Execution: 'Execution',
-  GmailOAuthState: 'GmailOAuthState'
+  GmailOAuthState: 'GmailOAuthState',
+  GmailProcessedMessage: 'GmailProcessedMessage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -409,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "credential" | "workflow" | "node" | "connection" | "execution" | "gmailOAuthState"
+    modelProps: "user" | "session" | "account" | "verification" | "credential" | "workflow" | "node" | "connection" | "execution" | "gmailOAuthState" | "gmailProcessedMessage"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1153,6 +1154,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    GmailProcessedMessage: {
+      payload: Prisma.$GmailProcessedMessagePayload<ExtArgs>
+      fields: Prisma.GmailProcessedMessageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GmailProcessedMessageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GmailProcessedMessagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GmailProcessedMessageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GmailProcessedMessagePayload>
+        }
+        findFirst: {
+          args: Prisma.GmailProcessedMessageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GmailProcessedMessagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GmailProcessedMessageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GmailProcessedMessagePayload>
+        }
+        findMany: {
+          args: Prisma.GmailProcessedMessageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GmailProcessedMessagePayload>[]
+        }
+        create: {
+          args: Prisma.GmailProcessedMessageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GmailProcessedMessagePayload>
+        }
+        createMany: {
+          args: Prisma.GmailProcessedMessageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GmailProcessedMessageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GmailProcessedMessagePayload>[]
+        }
+        delete: {
+          args: Prisma.GmailProcessedMessageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GmailProcessedMessagePayload>
+        }
+        update: {
+          args: Prisma.GmailProcessedMessageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GmailProcessedMessagePayload>
+        }
+        deleteMany: {
+          args: Prisma.GmailProcessedMessageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GmailProcessedMessageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GmailProcessedMessageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GmailProcessedMessagePayload>[]
+        }
+        upsert: {
+          args: Prisma.GmailProcessedMessageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GmailProcessedMessagePayload>
+        }
+        aggregate: {
+          args: Prisma.GmailProcessedMessageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGmailProcessedMessage>
+        }
+        groupBy: {
+          args: Prisma.GmailProcessedMessageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GmailProcessedMessageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GmailProcessedMessageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GmailProcessedMessageCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1258,7 +1333,9 @@ export const CredentialScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId',
-  accountEmail: 'accountEmail'
+  accountEmail: 'accountEmail',
+  gmailWatchExpiration: 'gmailWatchExpiration',
+  gmailHistoryId: 'gmailHistoryId'
 } as const
 
 export type CredentialScalarFieldEnum = (typeof CredentialScalarFieldEnum)[keyof typeof CredentialScalarFieldEnum]
@@ -1329,6 +1406,16 @@ export const GmailOAuthStateScalarFieldEnum = {
 } as const
 
 export type GmailOAuthStateScalarFieldEnum = (typeof GmailOAuthStateScalarFieldEnum)[keyof typeof GmailOAuthStateScalarFieldEnum]
+
+
+export const GmailProcessedMessageScalarFieldEnum = {
+  id: 'id',
+  credentialId: 'credentialId',
+  messageId: 'messageId',
+  createdAt: 'createdAt'
+} as const
+
+export type GmailProcessedMessageScalarFieldEnum = (typeof GmailProcessedMessageScalarFieldEnum)[keyof typeof GmailProcessedMessageScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1594,6 +1681,7 @@ export type GlobalOmitConfig = {
   connection?: Prisma.ConnectionOmit
   execution?: Prisma.ExecutionOmit
   gmailOAuthState?: Prisma.GmailOAuthStateOmit
+  gmailProcessedMessage?: Prisma.GmailProcessedMessageOmit
 }
 
 /* Types for Logging */

@@ -67,3 +67,8 @@ export type Execution = Prisma.ExecutionModel
  * 
  */
 export type GmailOAuthState = Prisma.GmailOAuthStateModel
+/**
+ * Model GmailProcessedMessage
+ * 
+ */
+export type GmailProcessedMessage = Prisma.GmailProcessedMessageModel
