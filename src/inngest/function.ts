@@ -15,6 +15,8 @@ import { discordChannel } from "./channels/discord";
 import { slackChannel } from "./channels/slack";
 import { whatsappChannel } from "./channels/whatsapp";
 import { whatsappTriggerChannel } from "./channels/whatsapp-trigger";
+import { gmailTriggerChannel } from "./channels/gmail-trigger";
+import { gmailChannel } from "./channels/gmail";
 
 export const executeWorkflow = inngest.createFunction(
   { 
@@ -45,6 +47,8 @@ export const executeWorkflow = inngest.createFunction(
       slackChannel(),
       whatsappChannel(),
       whatsappTriggerChannel(),
+      gmailChannel(),
+      gmailTriggerChannel(),
     ],
   },
   async ({ event, step , publish}) => {
@@ -55,14 +59,18 @@ export const executeWorkflow = inngest.createFunction(
       throw new NonRetriableError("Event ID or Workflow ID is missing")
     }
 
-    await step.run("create-execution" , async () => {
-      return prisma.execution.create({
-        data: {
-          workflowId,
-          inngestEventId,
-        },
-      });
-    });
+    await step.run("create-execution", async () => {
+  return prisma.execution.upsert({
+    where: {
+      inngestEventId,
+    },
+    create: {
+      workflowId,
+      inngestEventId,
+    },
+    update: {},
+  });
+});
 
     const sortedNodes = await step.run("prepare-workflow", async () => {
       const workflow = await prisma.workflow.findUniqueOrThrow({

@@ -60,7 +60,8 @@ export const ModelName = {
   Node: 'Node',
   Connection: 'Connection',
   Execution: 'Execution',
-  GmailOAuthState: 'GmailOAuthState'
+  GmailOAuthState: 'GmailOAuthState',
+  GmailProcessedMessage: 'GmailProcessedMessage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -218,6 +219,16 @@ export const GmailOAuthStateScalarFieldEnum = {
 } as const
 
 export type GmailOAuthStateScalarFieldEnum = (typeof GmailOAuthStateScalarFieldEnum)[keyof typeof GmailOAuthStateScalarFieldEnum]
+
+
+export const GmailProcessedMessageScalarFieldEnum = {
+  id: 'id',
+  credentialId: 'credentialId',
+  messageId: 'messageId',
+  createdAt: 'createdAt'
+} as const
+
+export type GmailProcessedMessageScalarFieldEnum = (typeof GmailProcessedMessageScalarFieldEnum)[keyof typeof GmailProcessedMessageScalarFieldEnum]
 
 
 export const SortOrder = {

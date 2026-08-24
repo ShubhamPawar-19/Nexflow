@@ -11,6 +11,7 @@ type GmailData = {
     to?: string;
     subject?: string;
     body?: string;
+    variableName?: string;
 };
 
 type GmailCredential = {
@@ -62,6 +63,11 @@ export const gmailExecutor: NodeExecutor = async ({
                 );
             }
 
+            if (!nodeData.variableName) {
+                throw new NonRetriableError(
+                    "Gmail node: Variable name is not configured",
+                );
+            }
             const credential = await prisma.credential.findFirst({
                 where: {
                     id: nodeData.credentialId,
@@ -129,7 +135,7 @@ export const gmailExecutor: NodeExecutor = async ({
 
             return {
                 ...context,
-                gmail: {
+                [nodeData.variableName]: {
                     messageId: response.id,
                     threadId: response.threadId,
                     from: gmailCredential.email,

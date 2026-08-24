@@ -224,6 +224,7 @@ export type CredentialWhereInput = {
   gmailHistoryId?: Prisma.StringNullableFilter<"Credential"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   Node?: Prisma.NodeListRelationFilter
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageListRelationFilter
 }
 
 export type CredentialOrderByWithRelationInput = {
@@ -239,6 +240,7 @@ export type CredentialOrderByWithRelationInput = {
   gmailHistoryId?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   Node?: Prisma.NodeOrderByRelationAggregateInput
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageOrderByRelationAggregateInput
 }
 
 export type CredentialWhereUniqueInput = Prisma.AtLeast<{
@@ -257,6 +259,7 @@ export type CredentialWhereUniqueInput = Prisma.AtLeast<{
   gmailHistoryId?: Prisma.StringNullableFilter<"Credential"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   Node?: Prisma.NodeListRelationFilter
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageListRelationFilter
 }, "id">
 
 export type CredentialOrderByWithAggregationInput = {
@@ -303,6 +306,7 @@ export type CredentialCreateInput = {
   gmailHistoryId?: string | null
   user: Prisma.UserCreateNestedOneWithoutCredentialsInput
   Node?: Prisma.NodeCreateNestedManyWithoutCredentialInput
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageCreateNestedManyWithoutCredentialInput
 }
 
 export type CredentialUncheckedCreateInput = {
@@ -317,6 +321,7 @@ export type CredentialUncheckedCreateInput = {
   gmailWatchExpiration?: Date | string | null
   gmailHistoryId?: string | null
   Node?: Prisma.NodeUncheckedCreateNestedManyWithoutCredentialInput
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageUncheckedCreateNestedManyWithoutCredentialInput
 }
 
 export type CredentialUpdateInput = {
@@ -331,6 +336,7 @@ export type CredentialUpdateInput = {
   gmailHistoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutCredentialsNestedInput
   Node?: Prisma.NodeUpdateManyWithoutCredentialNestedInput
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageUpdateManyWithoutCredentialNestedInput
 }
 
 export type CredentialUncheckedUpdateInput = {
@@ -345,6 +351,7 @@ export type CredentialUncheckedUpdateInput = {
   gmailWatchExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gmailHistoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Node?: Prisma.NodeUncheckedUpdateManyWithoutCredentialNestedInput
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageUncheckedUpdateManyWithoutCredentialNestedInput
 }
 
 export type CredentialCreateManyInput = {
@@ -439,6 +446,11 @@ export type CredentialNullableScalarRelationFilter = {
   isNot?: Prisma.CredentialWhereInput | null
 }
 
+export type CredentialScalarRelationFilter = {
+  is?: Prisma.CredentialWhereInput
+  isNot?: Prisma.CredentialWhereInput
+}
+
 export type CredentialCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.CredentialCreateWithoutUserInput, Prisma.CredentialUncheckedCreateWithoutUserInput> | Prisma.CredentialCreateWithoutUserInput[] | Prisma.CredentialUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.CredentialCreateOrConnectWithoutUserInput | Prisma.CredentialCreateOrConnectWithoutUserInput[]
@@ -501,6 +513,20 @@ export type CredentialUpdateOneWithoutNodeNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CredentialUpdateToOneWithWhereWithoutNodeInput, Prisma.CredentialUpdateWithoutNodeInput>, Prisma.CredentialUncheckedUpdateWithoutNodeInput>
 }
 
+export type CredentialCreateNestedOneWithoutGmailProcessedMessagesInput = {
+  create?: Prisma.XOR<Prisma.CredentialCreateWithoutGmailProcessedMessagesInput, Prisma.CredentialUncheckedCreateWithoutGmailProcessedMessagesInput>
+  connectOrCreate?: Prisma.CredentialCreateOrConnectWithoutGmailProcessedMessagesInput
+  connect?: Prisma.CredentialWhereUniqueInput
+}
+
+export type CredentialUpdateOneRequiredWithoutGmailProcessedMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.CredentialCreateWithoutGmailProcessedMessagesInput, Prisma.CredentialUncheckedCreateWithoutGmailProcessedMessagesInput>
+  connectOrCreate?: Prisma.CredentialCreateOrConnectWithoutGmailProcessedMessagesInput
+  upsert?: Prisma.CredentialUpsertWithoutGmailProcessedMessagesInput
+  connect?: Prisma.CredentialWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CredentialUpdateToOneWithWhereWithoutGmailProcessedMessagesInput, Prisma.CredentialUpdateWithoutGmailProcessedMessagesInput>, Prisma.CredentialUncheckedUpdateWithoutGmailProcessedMessagesInput>
+}
+
 export type CredentialCreateWithoutUserInput = {
   id?: string
   name: string
@@ -512,6 +538,7 @@ export type CredentialCreateWithoutUserInput = {
   gmailWatchExpiration?: Date | string | null
   gmailHistoryId?: string | null
   Node?: Prisma.NodeCreateNestedManyWithoutCredentialInput
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageCreateNestedManyWithoutCredentialInput
 }
 
 export type CredentialUncheckedCreateWithoutUserInput = {
@@ -525,6 +552,7 @@ export type CredentialUncheckedCreateWithoutUserInput = {
   gmailWatchExpiration?: Date | string | null
   gmailHistoryId?: string | null
   Node?: Prisma.NodeUncheckedCreateNestedManyWithoutCredentialInput
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageUncheckedCreateNestedManyWithoutCredentialInput
 }
 
 export type CredentialCreateOrConnectWithoutUserInput = {
@@ -580,6 +608,7 @@ export type CredentialCreateWithoutNodeInput = {
   gmailWatchExpiration?: Date | string | null
   gmailHistoryId?: string | null
   user: Prisma.UserCreateNestedOneWithoutCredentialsInput
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageCreateNestedManyWithoutCredentialInput
 }
 
 export type CredentialUncheckedCreateWithoutNodeInput = {
@@ -593,6 +622,7 @@ export type CredentialUncheckedCreateWithoutNodeInput = {
   accountEmail?: string | null
   gmailWatchExpiration?: Date | string | null
   gmailHistoryId?: string | null
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageUncheckedCreateNestedManyWithoutCredentialInput
 }
 
 export type CredentialCreateOrConnectWithoutNodeInput = {
@@ -622,6 +652,7 @@ export type CredentialUpdateWithoutNodeInput = {
   gmailWatchExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gmailHistoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutCredentialsNestedInput
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageUpdateManyWithoutCredentialNestedInput
 }
 
 export type CredentialUncheckedUpdateWithoutNodeInput = {
@@ -635,6 +666,79 @@ export type CredentialUncheckedUpdateWithoutNodeInput = {
   accountEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gmailWatchExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gmailHistoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageUncheckedUpdateManyWithoutCredentialNestedInput
+}
+
+export type CredentialCreateWithoutGmailProcessedMessagesInput = {
+  id?: string
+  name: string
+  value: string
+  type: $Enums.CredentialType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accountEmail?: string | null
+  gmailWatchExpiration?: Date | string | null
+  gmailHistoryId?: string | null
+  user: Prisma.UserCreateNestedOneWithoutCredentialsInput
+  Node?: Prisma.NodeCreateNestedManyWithoutCredentialInput
+}
+
+export type CredentialUncheckedCreateWithoutGmailProcessedMessagesInput = {
+  id?: string
+  name: string
+  value: string
+  type: $Enums.CredentialType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userId: string
+  accountEmail?: string | null
+  gmailWatchExpiration?: Date | string | null
+  gmailHistoryId?: string | null
+  Node?: Prisma.NodeUncheckedCreateNestedManyWithoutCredentialInput
+}
+
+export type CredentialCreateOrConnectWithoutGmailProcessedMessagesInput = {
+  where: Prisma.CredentialWhereUniqueInput
+  create: Prisma.XOR<Prisma.CredentialCreateWithoutGmailProcessedMessagesInput, Prisma.CredentialUncheckedCreateWithoutGmailProcessedMessagesInput>
+}
+
+export type CredentialUpsertWithoutGmailProcessedMessagesInput = {
+  update: Prisma.XOR<Prisma.CredentialUpdateWithoutGmailProcessedMessagesInput, Prisma.CredentialUncheckedUpdateWithoutGmailProcessedMessagesInput>
+  create: Prisma.XOR<Prisma.CredentialCreateWithoutGmailProcessedMessagesInput, Prisma.CredentialUncheckedCreateWithoutGmailProcessedMessagesInput>
+  where?: Prisma.CredentialWhereInput
+}
+
+export type CredentialUpdateToOneWithWhereWithoutGmailProcessedMessagesInput = {
+  where?: Prisma.CredentialWhereInput
+  data: Prisma.XOR<Prisma.CredentialUpdateWithoutGmailProcessedMessagesInput, Prisma.CredentialUncheckedUpdateWithoutGmailProcessedMessagesInput>
+}
+
+export type CredentialUpdateWithoutGmailProcessedMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumCredentialTypeFieldUpdateOperationsInput | $Enums.CredentialType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accountEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gmailWatchExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gmailHistoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user?: Prisma.UserUpdateOneRequiredWithoutCredentialsNestedInput
+  Node?: Prisma.NodeUpdateManyWithoutCredentialNestedInput
+}
+
+export type CredentialUncheckedUpdateWithoutGmailProcessedMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumCredentialTypeFieldUpdateOperationsInput | $Enums.CredentialType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  accountEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gmailWatchExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gmailHistoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  Node?: Prisma.NodeUncheckedUpdateManyWithoutCredentialNestedInput
 }
 
 export type CredentialCreateManyUserInput = {
@@ -660,6 +764,7 @@ export type CredentialUpdateWithoutUserInput = {
   gmailWatchExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gmailHistoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Node?: Prisma.NodeUpdateManyWithoutCredentialNestedInput
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageUpdateManyWithoutCredentialNestedInput
 }
 
 export type CredentialUncheckedUpdateWithoutUserInput = {
@@ -673,6 +778,7 @@ export type CredentialUncheckedUpdateWithoutUserInput = {
   gmailWatchExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   gmailHistoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Node?: Prisma.NodeUncheckedUpdateManyWithoutCredentialNestedInput
+  gmailProcessedMessages?: Prisma.GmailProcessedMessageUncheckedUpdateManyWithoutCredentialNestedInput
 }
 
 export type CredentialUncheckedUpdateManyWithoutUserInput = {
@@ -694,10 +800,12 @@ export type CredentialUncheckedUpdateManyWithoutUserInput = {
 
 export type CredentialCountOutputType = {
   Node: number
+  gmailProcessedMessages: number
 }
 
 export type CredentialCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   Node?: boolean | CredentialCountOutputTypeCountNodeArgs
+  gmailProcessedMessages?: boolean | CredentialCountOutputTypeCountGmailProcessedMessagesArgs
 }
 
 /**
@@ -717,6 +825,13 @@ export type CredentialCountOutputTypeCountNodeArgs<ExtArgs extends runtime.Types
   where?: Prisma.NodeWhereInput
 }
 
+/**
+ * CredentialCountOutputType without action
+ */
+export type CredentialCountOutputTypeCountGmailProcessedMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GmailProcessedMessageWhereInput
+}
+
 
 export type CredentialSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -731,6 +846,7 @@ export type CredentialSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   gmailHistoryId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   Node?: boolean | Prisma.Credential$NodeArgs<ExtArgs>
+  gmailProcessedMessages?: boolean | Prisma.Credential$gmailProcessedMessagesArgs<ExtArgs>
   _count?: boolean | Prisma.CredentialCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["credential"]>
 
@@ -779,6 +895,7 @@ export type CredentialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type CredentialInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   Node?: boolean | Prisma.Credential$NodeArgs<ExtArgs>
+  gmailProcessedMessages?: boolean | Prisma.Credential$gmailProcessedMessagesArgs<ExtArgs>
   _count?: boolean | Prisma.CredentialCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CredentialIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -793,6 +910,7 @@ export type $CredentialPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     Node: Prisma.$NodePayload<ExtArgs>[]
+    gmailProcessedMessages: Prisma.$GmailProcessedMessagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1201,6 +1319,7 @@ export interface Prisma__CredentialClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   Node<T extends Prisma.Credential$NodeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Credential$NodeArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  gmailProcessedMessages<T extends Prisma.Credential$gmailProcessedMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Credential$gmailProcessedMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GmailProcessedMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1662,6 +1781,30 @@ export type Credential$NodeArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.NodeScalarFieldEnum | Prisma.NodeScalarFieldEnum[]
+}
+
+/**
+ * Credential.gmailProcessedMessages
+ */
+export type Credential$gmailProcessedMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GmailProcessedMessage
+   */
+  select?: Prisma.GmailProcessedMessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GmailProcessedMessage
+   */
+  omit?: Prisma.GmailProcessedMessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GmailProcessedMessageInclude<ExtArgs> | null
+  where?: Prisma.GmailProcessedMessageWhereInput
+  orderBy?: Prisma.GmailProcessedMessageOrderByWithRelationInput | Prisma.GmailProcessedMessageOrderByWithRelationInput[]
+  cursor?: Prisma.GmailProcessedMessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GmailProcessedMessageScalarFieldEnum | Prisma.GmailProcessedMessageScalarFieldEnum[]
 }
 
 /**
