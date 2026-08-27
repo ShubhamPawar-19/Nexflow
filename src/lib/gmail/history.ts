@@ -9,13 +9,12 @@ type GmailCredential = {
 };
 
 export const getGmailHistory = async (
-  credentialValue: string,
-  startHistoryId: string,
+    credentialValue: string,
+    startHistoryId: string,
 ) => {
-
-  const gmailCredential = JSON.parse(
-    decrypt(credentialValue),
-  ) as GmailCredential;
+    const gmailCredential = JSON.parse(
+        decrypt(credentialValue),
+    ) as GmailCredential;
 
     const oauth2Client = createGmailOAuthClient();
 
@@ -36,6 +35,7 @@ export const getGmailHistory = async (
         userId: "me",
         startHistoryId,
         historyTypes: ["messageAdded"],
+        labelId: "INBOX",
     });
 
     return response.data;
