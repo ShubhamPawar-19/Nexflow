@@ -22,10 +22,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-
 import {
     Select,
     SelectContent,
@@ -34,23 +30,28 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
+import { Button } from "@/components/ui/button";
+
 import { CredentialType } from "@/generated/prisma/enums";
 import { useCredentialsByType } from "@/features/credentials/hooks/use-credentials";
 
-export const gmailFormSchema = z.object({
+export const gmailTriggerFormSchema = z.object({
     credentialId: z.string().min(1, "Gmail account is required"),
-    to: z.string().min(1, "Recipient is required"),
-    subject: z.string().min(1, "Subject is required"),
-    body: z.string().min(1, "Email body is required"),
+
+    // Used internally to match replies to a specific Gmail thread.
+    // Optional for now because the UI doesn't ask the user for it.
+    threadId: z.string().optional(),
 });
 
-export type GmailFormValues = z.infer<typeof gmailFormSchema>;
+export type GmailTriggerFormValues = z.infer<
+    typeof gmailTriggerFormSchema
+>;
 
-interface GmailDialogProps {
+interface GmailTriggerDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    onSubmit: (values: GmailFormValues) => void;
-    defaultValues?: Partial<GmailFormValues>;
+    onSubmit: (values: GmailTriggerFormValues) => void;
+    defaultValues?: Partial<GmailTriggerFormValues>;
 }
 
 export const GmailTriggerDialog = ({
@@ -58,17 +59,16 @@ export const GmailTriggerDialog = ({
     onOpenChange,
     onSubmit,
     defaultValues,
-}: GmailDialogProps) => {
+}: GmailTriggerDialogProps) => {
     const { data: credentials = [], isLoading } =
         useCredentialsByType(CredentialType.GMAIL);
 
-    const form = useForm<GmailFormValues>({
-        resolver: zodResolver(gmailFormSchema),
+    const form = useForm<GmailTriggerFormValues>({
+        resolver: zodResolver(gmailTriggerFormSchema),
+
         defaultValues: {
             credentialId: defaultValues?.credentialId || "",
-            to: defaultValues?.to || "",
-            subject: defaultValues?.subject || "",
-            body: defaultValues?.body || "",
+            threadId: defaultValues?.threadId || "",
         },
     });
 
@@ -77,166 +77,94 @@ export const GmailTriggerDialog = ({
 
         form.reset({
             credentialId: defaultValues?.credentialId || "",
-            to: defaultValues?.to || "",
-            subject: defaultValues?.subject || "",
-            body: defaultValues?.body || "",
+            threadId: defaultValues?.threadId || "",
         });
     }, [open, defaultValues, form]);
 
-    const handleSubmit = (values: GmailFormValues) => {
-        onSubmit(values);
+    const handleSubmit = (values: GmailTriggerFormValues) => {
+        onSubmit({
+            credentialId: values.credentialId,
+            threadId: values.threadId || undefined,
+        });
+
         onOpenChange(false);
     };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent
-                className="
-                    w-[calc(100%-2rem)]
-                    max-w-137.5
-                    max-h-[90vh]
-                    overflow-hidden
-                    p-0
-                "
-            >
-                {/* Header */}
-                <DialogHeader className="px-6 pt-6">
-                    <DialogTitle>Gmail Configuration</DialogTitle>
+            <DialogContent className="w-[calc(100%-2rem)] max-w-137.5">
+                <DialogHeader>
+                    <DialogTitle>Gmail Trigger</DialogTitle>
 
                     <DialogDescription>
-                        Configure the Gmail account and email you want to send.
+                        Choose the Gmail account that NexFlow should watch
+                        for new emails.
                     </DialogDescription>
                 </DialogHeader>
 
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(handleSubmit)}
-                        className="flex max-h-[calc(90vh-120px)] flex-col"
+                        className="space-y-6"
                     >
-                        {/* Form Content */}
-                        <div className="flex-1 space-y-6 overflow-y-auto px-6 py-6">
-                            {/* Gmail Account */}
-                            <FormField
-                                control={form.control}
-                                name="credentialId"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Gmail Account</FormLabel>
+                        <FormField
+                            control={form.control}
+                            name="credentialId"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        Gmail Account
+                                    </FormLabel>
 
-                                        <Select
-                                            value={field.value}
-                                            onValueChange={field.onChange}
-                                            disabled={isLoading}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger className="w-full">
-                                                    <SelectValue
-                                                        placeholder={
-                                                            isLoading
-                                                                ? "Loading accounts..."
-                                                                : "Select Gmail account"
-                                                        }
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-
-                                            <SelectContent>
-                                                {credentials.map(
-                                                    (credential) => (
-                                                        <SelectItem
-                                                            key={credential.id}
-                                                            value={credential.id}
-                                                        >
-                                                            {credential.accountEmail ||
-                                                                credential.name}
-                                                        </SelectItem>
-                                                    ),
-                                                )}
-                                            </SelectContent>
-                                        </Select>
-
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            {/* Recipient */}
-                            <FormField
-                                control={form.control}
-                                name="to"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>To</FormLabel>
-
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                        disabled={isLoading}
+                                    >
                                         <FormControl>
-                                            <Input
-                                                placeholder="customer@example.com"
-                                                {...field}
-                                            />
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue
+                                                    placeholder={
+                                                        isLoading
+                                                            ? "Loading accounts..."
+                                                            : "Select Gmail account"
+                                                    }
+                                                />
+                                            </SelectTrigger>
                                         </FormControl>
 
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                                        <SelectContent>
+                                            {credentials.map(
+                                                (credential) => (
+                                                    <SelectItem
+                                                        key={credential.id}
+                                                        value={credential.id}
+                                                    >
+                                                        {credential.accountEmail ||
+                                                            credential.name}
+                                                    </SelectItem>
+                                                ),
+                                            )}
+                                        </SelectContent>
+                                    </Select>
 
-                            {/* Subject */}
-                            <FormField
-                                control={form.control}
-                                name="subject"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Subject</FormLabel>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Welcome to NexFlow"
-                                                {...field}
-                                            />
-                                        </FormControl>
+                        <div className="flex justify-end gap-2">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => onOpenChange(false)}
+                            >
+                                Cancel
+                            </Button>
 
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            {/* Body */}
-                            <FormField
-                                control={form.control}
-                                name="body"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Message</FormLabel>
-
-                                        <FormControl>
-                                            <Textarea
-                                                placeholder="Hello, welcome to NexFlow!"
-                                                className="min-h-37.5 w-full resize-none whitespace-pre-wrap wrap-break-word"
-                                                {...field}
-                                            />
-                                        </FormControl>
-
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-
-                        {/* Footer */}
-                        <div className="border-t bg-background px-6 py-4">
-                            <div className="flex justify-end gap-2">
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    onClick={() => onOpenChange(false)}
-                                >
-                                    Cancel
-                                </Button>
-
-                                <Button type="submit">
-                                    Save
-                                </Button>
-                            </div>
+                            <Button type="submit">
+                                Save
+                            </Button>
                         </div>
                     </form>
                 </Form>

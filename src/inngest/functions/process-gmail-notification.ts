@@ -15,6 +15,9 @@ export const processGmailNotification = inngest.createFunction(
     {
         id: "process-gmail-notification",
         retries: 3,
+
+        // Process notifications for the same Gmail account
+        // sequentially.
         concurrency: {
             limit: 1,
             key: "event.data.credentialId",
@@ -27,66 +30,101 @@ export const processGmailNotification = inngest.createFunction(
         const {
             credentialId,
             emailAddress,
-            historyId,
+            historyId: notificationHistoryId,
         } = event.data as GmailNotificationData;
 
-        if (!credentialId || !historyId) {
+        console.log("GMAIL PROCESS START", {
+            eventId: event.id,
+            credentialId,
+            notificationHistoryId,
+            timestamp: new Date().toISOString(),
+        });
+
+        if (!credentialId || !notificationHistoryId) {
             throw new NonRetriableError(
                 "Gmail credentialId or historyId is missing",
             );
         }
 
         // --------------------------------------------------
-        // 1. Get Gmail credential
+        // 1. Get Gmail credential + current history cursor
         // --------------------------------------------------
 
         const credential = await step.run(
             "get-gmail-credential",
             async () => {
-                return prisma.credential.findUnique({
-                    where: {
-                        id: credentialId,
-                        type: "GMAIL",
-                    },
+                const result =
+                    await prisma.credential.findUnique({
+                        where: {
+                            id: credentialId,
+                            type: "GMAIL",
+                        },
+                        select: {
+                            id: true,
+                            value: true,
+                            gmailHistoryId: true,
+                        },
+                    });
+
+                if (!result) {
+                    throw new NonRetriableError(
+                        `Gmail credential ${credentialId} not found`,
+                    );
+                }
+
+                if (!result.gmailHistoryId) {
+                    throw new NonRetriableError(
+                        "Gmail history ID is missing",
+                    );
+                }
+
+                console.log("GMAIL CURSOR DEBUG", {
+                    credentialId,
+                    storedHistoryId:
+                        result.gmailHistoryId,
+                    notificationHistoryId,
                 });
+
+                return result;
             },
         );
-
-        if (!credential) {
-            throw new NonRetriableError(
-                `Gmail credential ${credentialId} not found`,
-            );
-        }
-
-        if (!credential.gmailHistoryId) {
-            throw new NonRetriableError(
-                "Gmail history ID is missing",
-            );
-        }
-        console.log("GMAIL CURSOR DEBUG", {
-            credentialId,
-            storedHistoryId: credential.gmailHistoryId,
-            notificationHistoryId: historyId,
-        });
 
         // --------------------------------------------------
         // 2. Get Gmail history
         // --------------------------------------------------
 
-        const history = await step.run(
+        const historyResult = await step.run(
             "get-gmail-history",
             async () => {
-                return getGmailHistory(
-                    credential.value,
-                    credential.gmailHistoryId!,
-                );
+                try {
+                    return await getGmailHistory(
+                        credential.value,
+                        credential.gmailHistoryId!,
+                    );
+                } catch (error: any) {
+                    console.error(
+                        "GMAIL HISTORY ERROR",
+                        {
+                            credentialId,
+                            historyId:
+                                credential.gmailHistoryId,
+                            error,
+                        },
+                    );
+
+                    throw error;
+                }
             },
         );
+
+        // --------------------------------------------------
+        // 3. Extract unique newly-added message IDs
+        // --------------------------------------------------
 
         const messageIds = [
             ...new Set(
                 (
-                    history.history?.flatMap(
+                    historyResult.history?.flatMap(
                         (item) =>
                             item.messagesAdded?.map(
                                 (message) =>
@@ -104,34 +142,12 @@ export const processGmailNotification = inngest.createFunction(
         );
 
         console.log("GMAIL HISTORY RESULT", {
-            requestedFrom: credential.gmailHistoryId,
-            returnedHistoryId: history.historyId,
-            notificationHistoryId: historyId,
+            requestedFrom:
+                credential.gmailHistoryId,
+            returnedHistoryId:
+                historyResult.historyId,
+            notificationHistoryId,
         });
-        // --------------------------------------------------
-        // 3. No messages
-        // --------------------------------------------------
-
-        if (messageIds.length === 0) {
-            await step.run(
-                "update-gmail-history",
-                async () => {
-                    return prisma.credential.update({
-                        where: {
-                            id: credentialId,
-                        },
-                        data: {
-                            gmailHistoryId: String(history.historyId),
-                        },
-                    });
-                },
-            );
-
-            return {
-                success: true,
-                messageIds: [],
-            };
-        }
 
         // --------------------------------------------------
         // 4. Get active Gmail workflows
@@ -150,6 +166,9 @@ export const processGmailNotification = inngest.createFunction(
                             },
                         },
                     },
+                    select: {
+                        id: true,
+                    },
                 });
             },
         );
@@ -159,46 +178,10 @@ export const processGmailNotification = inngest.createFunction(
         );
 
         // --------------------------------------------------
-        // 5. Process each message
+        // 5. Process each Gmail message
         // --------------------------------------------------
 
         for (const messageId of messageIds) {
-            // ----------------------------------------------
-            // ATOMIC DEDUPLICATION
-            // ----------------------------------------------
-
-            const processed = await step.run(
-                `deduplicate-gmail-message-${messageId}`,
-                async () => {
-                    try {
-                        return await prisma.gmailProcessedMessage.create(
-                            {
-                                data: {
-                                    credentialId,
-                                    messageId,
-                                },
-                            },
-                        );
-                    } catch (error: any) {
-                        // Prisma unique constraint = already processed
-                        if (error?.code === "P2002") {
-                            return null;
-                        }
-
-                        throw error;
-                    }
-                },
-            );
-
-            // Already processed by another notification
-            if (!processed) {
-                console.log(
-                    `Skipping already processed Gmail message: ${messageId}`,
-                );
-
-                continue;
-            }
-
             // ----------------------------------------------
             // Get actual Gmail message
             // ----------------------------------------------
@@ -213,84 +196,265 @@ export const processGmailNotification = inngest.createFunction(
                 },
             );
 
-            console.log(
-                "Gmail message received:",
-                {
-                    id: message.id,
-                    threadId: message.threadId,
-                    snippet: message.snippet,
+            console.log("GMAIL MESSAGE DEBUG", {
+                id: message.id,
+                threadId: message.threadId,
+                labelIds: message.labelIds,
+                snippet: message.snippet,
+            });
+
+            // ----------------------------------------------
+            // Ignore messages sent by the user
+            // ----------------------------------------------
+
+            if (message.labelIds?.includes("SENT")) {
+                console.log(
+                    `Skipping sent Gmail message: ${messageId}`,
+                );
+
+                continue;
+            }
+
+            // ----------------------------------------------
+            // Check if message was already processed
+            // ----------------------------------------------
+
+            const alreadyProcessed = await step.run(
+                `check-gmail-message-${messageId}`,
+                async () => {
+                    const existing =
+                        await prisma.gmailProcessedMessage.findUnique(
+                            {
+                                where: {
+                                    credentialId_messageId: {
+                                        credentialId,
+                                        messageId,
+                                    },
+                                },
+                                select: {
+                                    id: true,
+                                },
+                            },
+                        );
+
+                    return Boolean(existing);
                 },
             );
 
+            if (alreadyProcessed) {
+                console.log(
+                    "GMAIL MESSAGE ALREADY PROCESSED",
+                    {
+                        credentialId,
+                        messageId,
+                    },
+                );
+
+                continue;
+            }
+
             // ----------------------------------------------
-            // Start matching workflows
+            // Send workflow events
             // ----------------------------------------------
+
             for (const workflow of workflows) {
                 await step.run(
                     `start-gmail-workflow-${workflow.id}-${messageId}`,
                     async () => {
-                        const eventId = await sendWorkflowExecution({
-                            workflowId: workflow.id,
-                            initialData: {
-                                gmail: {
-                                    messageId: message.id,
-                                    threadId: message.threadId,
-                                    snippet: message.snippet,
-                                    historyId,
-                                    emailAddress,
-                                    message,
+                        const idempotencyId =
+                            `gmail-${credentialId}-${messageId}-${workflow.id}`;
+
+                        const eventResult =
+                            await sendWorkflowExecution({
+                                id: idempotencyId,
+                                workflowId: workflow.id,
+                                initialData: {
+                                    gmail: {
+                                        messageId:
+                                            message.id,
+                                        threadId:
+                                            message.threadId,
+                                        snippet:
+                                            message.snippet,
+                                        historyId:
+                                            notificationHistoryId,
+                                        emailAddress,
+                                        message,
+                                    },
                                 },
-                            },
-                        });
+                            });
 
                         console.log(
-                            `Started Gmail workflow ${workflow.id} for message ${messageId}`,
+                            "GMAIL WORKFLOW EVENT SENT",
                             {
-                                eventId,
+                                workflowId:
+                                    workflow.id,
                                 messageId,
+                                eventIds:
+                                    eventResult.ids,
+                                idempotencyId,
                             },
                         );
 
-                        return eventId;
+                        return eventResult;
                     },
                 );
             }
+
+            // ----------------------------------------------
+            // Mark Gmail message as processed
+            // ----------------------------------------------
+
+            await step.run(
+                `mark-gmail-message-processed-${messageId}`,
+                async () => {
+                    try {
+                        await prisma.gmailProcessedMessage.create(
+                            {
+                                data: {
+                                    credentialId,
+                                    messageId,
+                                },
+                            },
+                        );
+
+                        console.log(
+                            "GMAIL MESSAGE MARKED PROCESSED",
+                            {
+                                credentialId,
+                                messageId,
+                            },
+                        );
+                    } catch (error: any) {
+                        // Unique constraint means another
+                        // execution already processed it.
+                        if (error?.code === "P2002") {
+                            console.log(
+                                "GMAIL MESSAGE ALREADY MARKED PROCESSED",
+                                {
+                                    credentialId,
+                                    messageId,
+                                },
+                            );
+
+                            return;
+                        }
+
+                        throw error;
+                    }
+                },
+            );
         }
+
         // --------------------------------------------------
-        // 6. Move Gmail cursor forward
+        // 6. Advance Gmail history cursor
         // --------------------------------------------------
 
-        console.log("ABOUT TO UPDATE GMAIL CURSOR", {
-    credentialId,
-    from: credential.gmailHistoryId,
-    to: history.historyId,
-});
+        const returnedHistoryId =
+            historyResult.historyId;
 
-await step.run(
-    "update-gmail-history",
-    async () => {
-        const updated = await prisma.credential.update({
-            where: {
-                id: credentialId,
+        if (!returnedHistoryId) {
+            console.log(
+                "GMAIL NO HISTORY ID RETURNED",
+                {
+                    credentialId,
+                    notificationHistoryId,
+                },
+            );
+
+            return {
+                success: true,
+                emailAddress,
+                notificationHistoryId,
+                messageIds,
+                workflowCount: workflows.length,
+            };
+        }
+
+        await step.run(
+            "update-gmail-history",
+            async () => {
+                const current =
+                    await prisma.credential.findUnique({
+                        where: {
+                            id: credentialId,
+                        },
+                        select: {
+                            gmailHistoryId: true,
+                        },
+                    });
+
+                if (!current?.gmailHistoryId) {
+                    return;
+                }
+
+                const currentId = BigInt(
+                    current.gmailHistoryId,
+                );
+
+                const newId = BigInt(
+                    String(returnedHistoryId),
+                );
+
+                console.log("GMAIL CURSOR COMPARE", {
+                    credentialId,
+                    current:
+                        current.gmailHistoryId,
+                    returned:
+                        String(returnedHistoryId),
+                });
+
+                // Never move cursor backwards.
+                if (newId <= currentId) {
+                    console.log(
+                        "GMAIL CURSOR NOT MOVED",
+                        {
+                            credentialId,
+                            current:
+                                current.gmailHistoryId,
+                            attempted:
+                                String(
+                                    returnedHistoryId,
+                                ),
+                        },
+                    );
+
+                    return;
+                }
+
+                const updated =
+                    await prisma.credential.update({
+                        where: {
+                            id: credentialId,
+                        },
+                        data: {
+                            gmailHistoryId:
+                                String(
+                                    returnedHistoryId,
+                                ),
+                        },
+                        select: {
+                            gmailHistoryId: true,
+                        },
+                    });
+
+                console.log(
+                    "GMAIL CURSOR UPDATED",
+                    {
+                        credentialId,
+                        gmailHistoryId:
+                            updated.gmailHistoryId,
+                    },
+                );
+
+                return updated;
             },
-            data: {
-                gmailHistoryId: String(history.historyId),
-            },
-        });
-
-        console.log("GMAIL CURSOR UPDATED", {
-            credentialId: updated.id,
-            gmailHistoryId: updated.gmailHistoryId,
-        });
-
-        return updated;
-    },
-);
+        );
 
         return {
             success: true,
             emailAddress,
-            historyId,
+            notificationHistoryId,
             messageIds,
             workflowCount: workflows.length,
         };

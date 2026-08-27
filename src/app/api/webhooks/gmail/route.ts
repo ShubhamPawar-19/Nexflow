@@ -9,26 +9,90 @@ type GmailPubSubNotification = {
 
 export async function POST(request: Request) {
     try {
-        const body = await request.json();
+        const rawBody = await request.text();
 
-        const encodedData = body?.message?.data;
+        if (!rawBody.trim()) {
+            console.log("Gmail webhook received empty request body");
 
-        if (!encodedData) {
-            console.error("Missing Pub/Sub message data");
+            return NextResponse.json({
+                success: true,
+            });
+        }
+
+        let body: any;
+
+        try {
+            body = JSON.parse(rawBody);
+        } catch (error) {
+            console.error("Invalid Gmail webhook JSON:", error);
 
             return NextResponse.json(
-                { success: false },
+                {
+                    success: false,
+                    error: "Invalid JSON",
+                },
                 { status: 400 },
             );
         }
 
-        const decodedData = Buffer.from(
-            encodedData,
-            "base64",
-        ).toString("utf-8");
+        const encodedData = body?.message?.data;
 
-        const notification =
-            JSON.parse(decodedData) as GmailPubSubNotification;
+        if (!encodedData) {
+            console.error(
+                "Missing Pub/Sub message data",
+                body,
+            );
+
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: "Missing message data",
+                },
+                { status: 400 },
+            );
+        }
+
+        let notification: GmailPubSubNotification;
+
+        try {
+            const decodedData = Buffer.from(
+                encodedData,
+                "base64",
+            ).toString("utf-8");
+
+            notification = JSON.parse(decodedData);
+        } catch (error) {
+            console.error(
+                "Failed to decode Gmail notification:",
+                error,
+            );
+
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: "Invalid notification data",
+                },
+                { status: 400 },
+            );
+        }
+
+        if (
+            !notification.emailAddress ||
+            !notification.historyId
+        ) {
+            console.error(
+                "Invalid Gmail notification:",
+                notification,
+            );
+
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: "Invalid Gmail notification",
+                },
+                { status: 400 },
+            );
+        }
 
         console.log("Gmail notification:", notification);
 
@@ -47,11 +111,16 @@ export async function POST(request: Request) {
                 `No Gmail credential found for ${notification.emailAddress}`,
             );
 
-            return NextResponse.json({ success: true });
+            // Return 200 so Pub/Sub doesn't keep retrying
+            // a notification for an account that no longer exists.
+            return NextResponse.json({
+                success: true,
+            });
         }
 
         console.log("GMAIL EVENT SEND", {
             credentialId: credential.id,
+            emailAddress: notification.emailAddress,
             historyId: notification.historyId,
         });
 
