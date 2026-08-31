@@ -92,7 +92,7 @@ export const GmailTriggerDialog = ({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="w-[calc(100%-2rem)] max-w-137.5">
+            <DialogContent className="w-[calc(100%-2rem)] max-w-137.5 p-4">
                 <DialogHeader>
                     <DialogTitle>Gmail Trigger</DialogTitle>
 

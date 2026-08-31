@@ -61,7 +61,8 @@ export const ModelName = {
   Connection: 'Connection',
   Execution: 'Execution',
   GmailOAuthState: 'GmailOAuthState',
-  GmailProcessedMessage: 'GmailProcessedMessage'
+  GmailProcessedMessage: 'GmailProcessedMessage',
+  Webhook: 'Webhook'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -229,6 +230,20 @@ export const GmailProcessedMessageScalarFieldEnum = {
 } as const
 
 export type GmailProcessedMessageScalarFieldEnum = (typeof GmailProcessedMessageScalarFieldEnum)[keyof typeof GmailProcessedMessageScalarFieldEnum]
+
+
+export const WebhookScalarFieldEnum = {
+  id: 'id',
+  workflowId: 'workflowId',
+  nodeId: 'nodeId',
+  path: 'path',
+  secret: 'secret',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WebhookScalarFieldEnum = (typeof WebhookScalarFieldEnum)[keyof typeof WebhookScalarFieldEnum]
 
 
 export const SortOrder = {

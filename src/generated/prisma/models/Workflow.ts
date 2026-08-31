@@ -193,6 +193,7 @@ export type WorkflowWhereInput = {
   nodes?: Prisma.NodeListRelationFilter
   connections?: Prisma.ConnectionListRelationFilter
   executions?: Prisma.ExecutionListRelationFilter
+  webhooks?: Prisma.WebhookListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -206,6 +207,7 @@ export type WorkflowOrderByWithRelationInput = {
   nodes?: Prisma.NodeOrderByRelationAggregateInput
   connections?: Prisma.ConnectionOrderByRelationAggregateInput
   executions?: Prisma.ExecutionOrderByRelationAggregateInput
+  webhooks?: Prisma.WebhookOrderByRelationAggregateInput
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -222,6 +224,7 @@ export type WorkflowWhereUniqueInput = Prisma.AtLeast<{
   nodes?: Prisma.NodeListRelationFilter
   connections?: Prisma.ConnectionListRelationFilter
   executions?: Prisma.ExecutionListRelationFilter
+  webhooks?: Prisma.WebhookListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
@@ -258,6 +261,7 @@ export type WorkflowCreateInput = {
   nodes?: Prisma.NodeCreateNestedManyWithoutWorkflowInput
   connections?: Prisma.ConnectionCreateNestedManyWithoutWorkflowInput
   executions?: Prisma.ExecutionCreateNestedManyWithoutWorkflowInput
+  webhooks?: Prisma.WebhookCreateNestedManyWithoutWorkflowInput
   user: Prisma.UserCreateNestedOneWithoutWorkflowsInput
 }
 
@@ -271,6 +275,7 @@ export type WorkflowUncheckedCreateInput = {
   nodes?: Prisma.NodeUncheckedCreateNestedManyWithoutWorkflowInput
   connections?: Prisma.ConnectionUncheckedCreateNestedManyWithoutWorkflowInput
   executions?: Prisma.ExecutionUncheckedCreateNestedManyWithoutWorkflowInput
+  webhooks?: Prisma.WebhookUncheckedCreateNestedManyWithoutWorkflowInput
 }
 
 export type WorkflowUpdateInput = {
@@ -282,6 +287,7 @@ export type WorkflowUpdateInput = {
   nodes?: Prisma.NodeUpdateManyWithoutWorkflowNestedInput
   connections?: Prisma.ConnectionUpdateManyWithoutWorkflowNestedInput
   executions?: Prisma.ExecutionUpdateManyWithoutWorkflowNestedInput
+  webhooks?: Prisma.WebhookUpdateManyWithoutWorkflowNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutWorkflowsNestedInput
 }
 
@@ -295,6 +301,7 @@ export type WorkflowUncheckedUpdateInput = {
   nodes?: Prisma.NodeUncheckedUpdateManyWithoutWorkflowNestedInput
   connections?: Prisma.ConnectionUncheckedUpdateManyWithoutWorkflowNestedInput
   executions?: Prisma.ExecutionUncheckedUpdateManyWithoutWorkflowNestedInput
+  webhooks?: Prisma.WebhookUncheckedUpdateManyWithoutWorkflowNestedInput
 }
 
 export type WorkflowCreateManyInput = {
@@ -449,6 +456,20 @@ export type WorkflowUpdateOneRequiredWithoutExecutionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.WorkflowUpdateToOneWithWhereWithoutExecutionsInput, Prisma.WorkflowUpdateWithoutExecutionsInput>, Prisma.WorkflowUncheckedUpdateWithoutExecutionsInput>
 }
 
+export type WorkflowCreateNestedOneWithoutWebhooksInput = {
+  create?: Prisma.XOR<Prisma.WorkflowCreateWithoutWebhooksInput, Prisma.WorkflowUncheckedCreateWithoutWebhooksInput>
+  connectOrCreate?: Prisma.WorkflowCreateOrConnectWithoutWebhooksInput
+  connect?: Prisma.WorkflowWhereUniqueInput
+}
+
+export type WorkflowUpdateOneRequiredWithoutWebhooksNestedInput = {
+  create?: Prisma.XOR<Prisma.WorkflowCreateWithoutWebhooksInput, Prisma.WorkflowUncheckedCreateWithoutWebhooksInput>
+  connectOrCreate?: Prisma.WorkflowCreateOrConnectWithoutWebhooksInput
+  upsert?: Prisma.WorkflowUpsertWithoutWebhooksInput
+  connect?: Prisma.WorkflowWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WorkflowUpdateToOneWithWhereWithoutWebhooksInput, Prisma.WorkflowUpdateWithoutWebhooksInput>, Prisma.WorkflowUncheckedUpdateWithoutWebhooksInput>
+}
+
 export type WorkflowCreateWithoutUserInput = {
   id?: string
   name: string
@@ -458,6 +479,7 @@ export type WorkflowCreateWithoutUserInput = {
   nodes?: Prisma.NodeCreateNestedManyWithoutWorkflowInput
   connections?: Prisma.ConnectionCreateNestedManyWithoutWorkflowInput
   executions?: Prisma.ExecutionCreateNestedManyWithoutWorkflowInput
+  webhooks?: Prisma.WebhookCreateNestedManyWithoutWorkflowInput
 }
 
 export type WorkflowUncheckedCreateWithoutUserInput = {
@@ -469,6 +491,7 @@ export type WorkflowUncheckedCreateWithoutUserInput = {
   nodes?: Prisma.NodeUncheckedCreateNestedManyWithoutWorkflowInput
   connections?: Prisma.ConnectionUncheckedCreateNestedManyWithoutWorkflowInput
   executions?: Prisma.ExecutionUncheckedCreateNestedManyWithoutWorkflowInput
+  webhooks?: Prisma.WebhookUncheckedCreateNestedManyWithoutWorkflowInput
 }
 
 export type WorkflowCreateOrConnectWithoutUserInput = {
@@ -517,6 +540,7 @@ export type WorkflowCreateWithoutNodesInput = {
   updatedAt?: Date | string
   connections?: Prisma.ConnectionCreateNestedManyWithoutWorkflowInput
   executions?: Prisma.ExecutionCreateNestedManyWithoutWorkflowInput
+  webhooks?: Prisma.WebhookCreateNestedManyWithoutWorkflowInput
   user: Prisma.UserCreateNestedOneWithoutWorkflowsInput
 }
 
@@ -529,6 +553,7 @@ export type WorkflowUncheckedCreateWithoutNodesInput = {
   userId: string
   connections?: Prisma.ConnectionUncheckedCreateNestedManyWithoutWorkflowInput
   executions?: Prisma.ExecutionUncheckedCreateNestedManyWithoutWorkflowInput
+  webhooks?: Prisma.WebhookUncheckedCreateNestedManyWithoutWorkflowInput
 }
 
 export type WorkflowCreateOrConnectWithoutNodesInput = {
@@ -555,6 +580,7 @@ export type WorkflowUpdateWithoutNodesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   connections?: Prisma.ConnectionUpdateManyWithoutWorkflowNestedInput
   executions?: Prisma.ExecutionUpdateManyWithoutWorkflowNestedInput
+  webhooks?: Prisma.WebhookUpdateManyWithoutWorkflowNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutWorkflowsNestedInput
 }
 
@@ -567,6 +593,7 @@ export type WorkflowUncheckedUpdateWithoutNodesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   connections?: Prisma.ConnectionUncheckedUpdateManyWithoutWorkflowNestedInput
   executions?: Prisma.ExecutionUncheckedUpdateManyWithoutWorkflowNestedInput
+  webhooks?: Prisma.WebhookUncheckedUpdateManyWithoutWorkflowNestedInput
 }
 
 export type WorkflowCreateWithoutConnectionsInput = {
@@ -577,6 +604,7 @@ export type WorkflowCreateWithoutConnectionsInput = {
   updatedAt?: Date | string
   nodes?: Prisma.NodeCreateNestedManyWithoutWorkflowInput
   executions?: Prisma.ExecutionCreateNestedManyWithoutWorkflowInput
+  webhooks?: Prisma.WebhookCreateNestedManyWithoutWorkflowInput
   user: Prisma.UserCreateNestedOneWithoutWorkflowsInput
 }
 
@@ -589,6 +617,7 @@ export type WorkflowUncheckedCreateWithoutConnectionsInput = {
   userId: string
   nodes?: Prisma.NodeUncheckedCreateNestedManyWithoutWorkflowInput
   executions?: Prisma.ExecutionUncheckedCreateNestedManyWithoutWorkflowInput
+  webhooks?: Prisma.WebhookUncheckedCreateNestedManyWithoutWorkflowInput
 }
 
 export type WorkflowCreateOrConnectWithoutConnectionsInput = {
@@ -615,6 +644,7 @@ export type WorkflowUpdateWithoutConnectionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nodes?: Prisma.NodeUpdateManyWithoutWorkflowNestedInput
   executions?: Prisma.ExecutionUpdateManyWithoutWorkflowNestedInput
+  webhooks?: Prisma.WebhookUpdateManyWithoutWorkflowNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutWorkflowsNestedInput
 }
 
@@ -627,6 +657,7 @@ export type WorkflowUncheckedUpdateWithoutConnectionsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   nodes?: Prisma.NodeUncheckedUpdateManyWithoutWorkflowNestedInput
   executions?: Prisma.ExecutionUncheckedUpdateManyWithoutWorkflowNestedInput
+  webhooks?: Prisma.WebhookUncheckedUpdateManyWithoutWorkflowNestedInput
 }
 
 export type WorkflowCreateWithoutExecutionsInput = {
@@ -637,6 +668,7 @@ export type WorkflowCreateWithoutExecutionsInput = {
   updatedAt?: Date | string
   nodes?: Prisma.NodeCreateNestedManyWithoutWorkflowInput
   connections?: Prisma.ConnectionCreateNestedManyWithoutWorkflowInput
+  webhooks?: Prisma.WebhookCreateNestedManyWithoutWorkflowInput
   user: Prisma.UserCreateNestedOneWithoutWorkflowsInput
 }
 
@@ -649,6 +681,7 @@ export type WorkflowUncheckedCreateWithoutExecutionsInput = {
   userId: string
   nodes?: Prisma.NodeUncheckedCreateNestedManyWithoutWorkflowInput
   connections?: Prisma.ConnectionUncheckedCreateNestedManyWithoutWorkflowInput
+  webhooks?: Prisma.WebhookUncheckedCreateNestedManyWithoutWorkflowInput
 }
 
 export type WorkflowCreateOrConnectWithoutExecutionsInput = {
@@ -675,6 +708,7 @@ export type WorkflowUpdateWithoutExecutionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nodes?: Prisma.NodeUpdateManyWithoutWorkflowNestedInput
   connections?: Prisma.ConnectionUpdateManyWithoutWorkflowNestedInput
+  webhooks?: Prisma.WebhookUpdateManyWithoutWorkflowNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutWorkflowsNestedInput
 }
 
@@ -687,6 +721,71 @@ export type WorkflowUncheckedUpdateWithoutExecutionsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   nodes?: Prisma.NodeUncheckedUpdateManyWithoutWorkflowNestedInput
   connections?: Prisma.ConnectionUncheckedUpdateManyWithoutWorkflowNestedInput
+  webhooks?: Prisma.WebhookUncheckedUpdateManyWithoutWorkflowNestedInput
+}
+
+export type WorkflowCreateWithoutWebhooksInput = {
+  id?: string
+  name: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  nodes?: Prisma.NodeCreateNestedManyWithoutWorkflowInput
+  connections?: Prisma.ConnectionCreateNestedManyWithoutWorkflowInput
+  executions?: Prisma.ExecutionCreateNestedManyWithoutWorkflowInput
+  user: Prisma.UserCreateNestedOneWithoutWorkflowsInput
+}
+
+export type WorkflowUncheckedCreateWithoutWebhooksInput = {
+  id?: string
+  name: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userId: string
+  nodes?: Prisma.NodeUncheckedCreateNestedManyWithoutWorkflowInput
+  connections?: Prisma.ConnectionUncheckedCreateNestedManyWithoutWorkflowInput
+  executions?: Prisma.ExecutionUncheckedCreateNestedManyWithoutWorkflowInput
+}
+
+export type WorkflowCreateOrConnectWithoutWebhooksInput = {
+  where: Prisma.WorkflowWhereUniqueInput
+  create: Prisma.XOR<Prisma.WorkflowCreateWithoutWebhooksInput, Prisma.WorkflowUncheckedCreateWithoutWebhooksInput>
+}
+
+export type WorkflowUpsertWithoutWebhooksInput = {
+  update: Prisma.XOR<Prisma.WorkflowUpdateWithoutWebhooksInput, Prisma.WorkflowUncheckedUpdateWithoutWebhooksInput>
+  create: Prisma.XOR<Prisma.WorkflowCreateWithoutWebhooksInput, Prisma.WorkflowUncheckedCreateWithoutWebhooksInput>
+  where?: Prisma.WorkflowWhereInput
+}
+
+export type WorkflowUpdateToOneWithWhereWithoutWebhooksInput = {
+  where?: Prisma.WorkflowWhereInput
+  data: Prisma.XOR<Prisma.WorkflowUpdateWithoutWebhooksInput, Prisma.WorkflowUncheckedUpdateWithoutWebhooksInput>
+}
+
+export type WorkflowUpdateWithoutWebhooksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  nodes?: Prisma.NodeUpdateManyWithoutWorkflowNestedInput
+  connections?: Prisma.ConnectionUpdateManyWithoutWorkflowNestedInput
+  executions?: Prisma.ExecutionUpdateManyWithoutWorkflowNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutWorkflowsNestedInput
+}
+
+export type WorkflowUncheckedUpdateWithoutWebhooksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  nodes?: Prisma.NodeUncheckedUpdateManyWithoutWorkflowNestedInput
+  connections?: Prisma.ConnectionUncheckedUpdateManyWithoutWorkflowNestedInput
+  executions?: Prisma.ExecutionUncheckedUpdateManyWithoutWorkflowNestedInput
 }
 
 export type WorkflowCreateManyUserInput = {
@@ -706,6 +805,7 @@ export type WorkflowUpdateWithoutUserInput = {
   nodes?: Prisma.NodeUpdateManyWithoutWorkflowNestedInput
   connections?: Prisma.ConnectionUpdateManyWithoutWorkflowNestedInput
   executions?: Prisma.ExecutionUpdateManyWithoutWorkflowNestedInput
+  webhooks?: Prisma.WebhookUpdateManyWithoutWorkflowNestedInput
 }
 
 export type WorkflowUncheckedUpdateWithoutUserInput = {
@@ -717,6 +817,7 @@ export type WorkflowUncheckedUpdateWithoutUserInput = {
   nodes?: Prisma.NodeUncheckedUpdateManyWithoutWorkflowNestedInput
   connections?: Prisma.ConnectionUncheckedUpdateManyWithoutWorkflowNestedInput
   executions?: Prisma.ExecutionUncheckedUpdateManyWithoutWorkflowNestedInput
+  webhooks?: Prisma.WebhookUncheckedUpdateManyWithoutWorkflowNestedInput
 }
 
 export type WorkflowUncheckedUpdateManyWithoutUserInput = {
@@ -736,12 +837,14 @@ export type WorkflowCountOutputType = {
   nodes: number
   connections: number
   executions: number
+  webhooks: number
 }
 
 export type WorkflowCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   nodes?: boolean | WorkflowCountOutputTypeCountNodesArgs
   connections?: boolean | WorkflowCountOutputTypeCountConnectionsArgs
   executions?: boolean | WorkflowCountOutputTypeCountExecutionsArgs
+  webhooks?: boolean | WorkflowCountOutputTypeCountWebhooksArgs
 }
 
 /**
@@ -775,6 +878,13 @@ export type WorkflowCountOutputTypeCountExecutionsArgs<ExtArgs extends runtime.T
   where?: Prisma.ExecutionWhereInput
 }
 
+/**
+ * WorkflowCountOutputType without action
+ */
+export type WorkflowCountOutputTypeCountWebhooksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WebhookWhereInput
+}
+
 
 export type WorkflowSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -786,6 +896,7 @@ export type WorkflowSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   nodes?: boolean | Prisma.Workflow$nodesArgs<ExtArgs>
   connections?: boolean | Prisma.Workflow$connectionsArgs<ExtArgs>
   executions?: boolean | Prisma.Workflow$executionsArgs<ExtArgs>
+  webhooks?: boolean | Prisma.Workflow$webhooksArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.WorkflowCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workflow"]>
@@ -824,6 +935,7 @@ export type WorkflowInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   nodes?: boolean | Prisma.Workflow$nodesArgs<ExtArgs>
   connections?: boolean | Prisma.Workflow$connectionsArgs<ExtArgs>
   executions?: boolean | Prisma.Workflow$executionsArgs<ExtArgs>
+  webhooks?: boolean | Prisma.Workflow$webhooksArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.WorkflowCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -840,6 +952,7 @@ export type $WorkflowPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     nodes: Prisma.$NodePayload<ExtArgs>[]
     connections: Prisma.$ConnectionPayload<ExtArgs>[]
     executions: Prisma.$ExecutionPayload<ExtArgs>[]
+    webhooks: Prisma.$WebhookPayload<ExtArgs>[]
     user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1246,6 +1359,7 @@ export interface Prisma__WorkflowClient<T, Null = never, ExtArgs extends runtime
   nodes<T extends Prisma.Workflow$nodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workflow$nodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   connections<T extends Prisma.Workflow$connectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workflow$connectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   executions<T extends Prisma.Workflow$executionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workflow$executionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExecutionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  webhooks<T extends Prisma.Workflow$webhooksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Workflow$webhooksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1752,6 +1866,30 @@ export type Workflow$executionsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.ExecutionScalarFieldEnum | Prisma.ExecutionScalarFieldEnum[]
+}
+
+/**
+ * Workflow.webhooks
+ */
+export type Workflow$webhooksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Webhook
+   */
+  select?: Prisma.WebhookSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Webhook
+   */
+  omit?: Prisma.WebhookOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WebhookInclude<ExtArgs> | null
+  where?: Prisma.WebhookWhereInput
+  orderBy?: Prisma.WebhookOrderByWithRelationInput | Prisma.WebhookOrderByWithRelationInput[]
+  cursor?: Prisma.WebhookWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WebhookScalarFieldEnum | Prisma.WebhookScalarFieldEnum[]
 }
 
 /**

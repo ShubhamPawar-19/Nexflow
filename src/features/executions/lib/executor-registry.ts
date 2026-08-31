@@ -13,6 +13,7 @@ import { whatsappExecutor } from "../components/whatsapp/executor";
 import { gmailExecutor } from "../components/gmail/executor";
 import { whatsappTriggerExecutor } from "@/features/triggers/components/whatsapp-trigger/executor";
 import { gmailTriggerExecutor } from "@/features/triggers/components/gmail-trigger/executor";
+import { webhookTriggerExecutor } from "@/features/triggers/components/webhook-trigger/executor";
 
 export const executorRegistry: Record<NodeType, NodeExecutor> = {
     [NodeType.MANUAL_TRIGGER]: manualTriggerExecutor,
@@ -29,6 +30,7 @@ export const executorRegistry: Record<NodeType, NodeExecutor> = {
     [NodeType.WHATSAPP_TRIGGER]: whatsappTriggerExecutor,
     [NodeType.GMAIL]: gmailExecutor,
     [NodeType.GMAIL_TRIGGER]: gmailTriggerExecutor,
+    [NodeType.WEBHOOK_TRIGGER]: webhookTriggerExecutor,
 };
 
 export const getExecutor = (type: NodeType): NodeExecutor => {

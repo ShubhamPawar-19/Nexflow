@@ -5,9 +5,7 @@ import z from "zod";
 import { PAGINATION } from "@/config/constants";
 import { NodeType } from "@/generated/prisma/enums";
 import type { Edge, Node } from "@xyflow/react";
-import { inngest } from "@/inngest/client";
 import { sendWorkflowExecution } from "@/inngest/utils";
-import { decrypt } from "@/lib/encryption";
 import { setupGmailWatch } from "@/lib/gmail/watch";
 
 export const workflowsRouter = createTRPCRouter({

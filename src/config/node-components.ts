@@ -11,6 +11,7 @@ import { GmailTriggerNode } from "@/features/triggers/components/gmail-trigger/n
 import { googleFormTrigger } from "@/features/triggers/components/google-form-trigger/node";
 import { ManualTriggerNode } from "@/features/triggers/components/manual-trigger/node";
 import { StripeTriggerNode } from "@/features/triggers/components/stripe-trigger/node";
+import { WebhookTriggerNode } from "@/features/triggers/components/webhook-trigger/node";
 import { WhatsAppTriggerNode } from "@/features/triggers/components/whatsapp-trigger/node";
 import { NodeType } from "@/generated/prisma/enums";
 import type { NodeTypes } from "@xyflow/react";
@@ -29,7 +30,8 @@ export const nodeComponents = {
     [NodeType.WHATSAPP]: WhatsAppNode,
     [NodeType.WHATSAPP_TRIGGER]: WhatsAppTriggerNode,
     [NodeType.GMAIL]: GmailNode,
-    [NodeType.GMAIL_TRIGGER]: GmailTriggerNode
+    [NodeType.GMAIL_TRIGGER]: GmailTriggerNode,
+    [NodeType.WEBHOOK_TRIGGER]: WebhookTriggerNode,
 } as const satisfies NodeTypes;
 
 export type RegistrationNodeType = keyof typeof nodeComponents;
