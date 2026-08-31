@@ -72,3 +72,8 @@ export type GmailOAuthState = Prisma.GmailOAuthStateModel
  * 
  */
 export type GmailProcessedMessage = Prisma.GmailProcessedMessageModel
+/**
+ * Model Webhook
+ * 
+ */
+export type Webhook = Prisma.WebhookModel

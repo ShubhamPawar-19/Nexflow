@@ -53,7 +53,13 @@ const triggerNode: NodeTypeOption[] = [
         label: "Gmail",
         description: "When a new email arrives",
         icon: "/logos/gmail.svg",
-    }
+    },
+    {
+        type: NodeType.WEBHOOK_TRIGGER,
+        label: "Webhook",
+        description: "Runs the flow when an HTTP request is received",
+        icon: "/logos/webhook.svg",
+    },
 ];
 
 const executionNode: NodeTypeOption[] = [

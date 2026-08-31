@@ -207,6 +207,7 @@ export type NodeWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Node"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Node"> | Date | string
   workflow?: Prisma.XOR<Prisma.WorkflowScalarRelationFilter, Prisma.WorkflowWhereInput>
+  webhook?: Prisma.XOR<Prisma.WebhookNullableScalarRelationFilter, Prisma.WebhookWhereInput> | null
   credential?: Prisma.XOR<Prisma.CredentialNullableScalarRelationFilter, Prisma.CredentialWhereInput> | null
   outputConnection?: Prisma.ConnectionListRelationFilter
   inputConnection?: Prisma.ConnectionListRelationFilter
@@ -223,6 +224,7 @@ export type NodeOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   workflow?: Prisma.WorkflowOrderByWithRelationInput
+  webhook?: Prisma.WebhookOrderByWithRelationInput
   credential?: Prisma.CredentialOrderByWithRelationInput
   outputConnection?: Prisma.ConnectionOrderByRelationAggregateInput
   inputConnection?: Prisma.ConnectionOrderByRelationAggregateInput
@@ -242,6 +244,7 @@ export type NodeWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Node"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Node"> | Date | string
   workflow?: Prisma.XOR<Prisma.WorkflowScalarRelationFilter, Prisma.WorkflowWhereInput>
+  webhook?: Prisma.XOR<Prisma.WebhookNullableScalarRelationFilter, Prisma.WebhookWhereInput> | null
   credential?: Prisma.XOR<Prisma.CredentialNullableScalarRelationFilter, Prisma.CredentialWhereInput> | null
   outputConnection?: Prisma.ConnectionListRelationFilter
   inputConnection?: Prisma.ConnectionListRelationFilter
@@ -286,6 +289,7 @@ export type NodeCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   workflow: Prisma.WorkflowCreateNestedOneWithoutNodesInput
+  webhook?: Prisma.WebhookCreateNestedOneWithoutNodeInput
   credential?: Prisma.CredentialCreateNestedOneWithoutNodeInput
   outputConnection?: Prisma.ConnectionCreateNestedManyWithoutFromNodeInput
   inputConnection?: Prisma.ConnectionCreateNestedManyWithoutToNodeInput
@@ -301,6 +305,7 @@ export type NodeUncheckedCreateInput = {
   credentialId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  webhook?: Prisma.WebhookUncheckedCreateNestedOneWithoutNodeInput
   outputConnection?: Prisma.ConnectionUncheckedCreateNestedManyWithoutFromNodeInput
   inputConnection?: Prisma.ConnectionUncheckedCreateNestedManyWithoutToNodeInput
 }
@@ -314,6 +319,7 @@ export type NodeUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workflow?: Prisma.WorkflowUpdateOneRequiredWithoutNodesNestedInput
+  webhook?: Prisma.WebhookUpdateOneWithoutNodeNestedInput
   credential?: Prisma.CredentialUpdateOneWithoutNodeNestedInput
   outputConnection?: Prisma.ConnectionUpdateManyWithoutFromNodeNestedInput
   inputConnection?: Prisma.ConnectionUpdateManyWithoutToNodeNestedInput
@@ -329,6 +335,7 @@ export type NodeUncheckedUpdateInput = {
   credentialId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  webhook?: Prisma.WebhookUncheckedUpdateOneWithoutNodeNestedInput
   outputConnection?: Prisma.ConnectionUncheckedUpdateManyWithoutFromNodeNestedInput
   inputConnection?: Prisma.ConnectionUncheckedUpdateManyWithoutToNodeNestedInput
 }
@@ -530,6 +537,20 @@ export type NodeUpdateOneRequiredWithoutInputConnectionNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.NodeUpdateToOneWithWhereWithoutInputConnectionInput, Prisma.NodeUpdateWithoutInputConnectionInput>, Prisma.NodeUncheckedUpdateWithoutInputConnectionInput>
 }
 
+export type NodeCreateNestedOneWithoutWebhookInput = {
+  create?: Prisma.XOR<Prisma.NodeCreateWithoutWebhookInput, Prisma.NodeUncheckedCreateWithoutWebhookInput>
+  connectOrCreate?: Prisma.NodeCreateOrConnectWithoutWebhookInput
+  connect?: Prisma.NodeWhereUniqueInput
+}
+
+export type NodeUpdateOneRequiredWithoutWebhookNestedInput = {
+  create?: Prisma.XOR<Prisma.NodeCreateWithoutWebhookInput, Prisma.NodeUncheckedCreateWithoutWebhookInput>
+  connectOrCreate?: Prisma.NodeCreateOrConnectWithoutWebhookInput
+  upsert?: Prisma.NodeUpsertWithoutWebhookInput
+  connect?: Prisma.NodeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.NodeUpdateToOneWithWhereWithoutWebhookInput, Prisma.NodeUpdateWithoutWebhookInput>, Prisma.NodeUncheckedUpdateWithoutWebhookInput>
+}
+
 export type NodeCreateWithoutCredentialInput = {
   id?: string
   name: string
@@ -539,6 +560,7 @@ export type NodeCreateWithoutCredentialInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   workflow: Prisma.WorkflowCreateNestedOneWithoutNodesInput
+  webhook?: Prisma.WebhookCreateNestedOneWithoutNodeInput
   outputConnection?: Prisma.ConnectionCreateNestedManyWithoutFromNodeInput
   inputConnection?: Prisma.ConnectionCreateNestedManyWithoutToNodeInput
 }
@@ -552,6 +574,7 @@ export type NodeUncheckedCreateWithoutCredentialInput = {
   data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  webhook?: Prisma.WebhookUncheckedCreateNestedOneWithoutNodeInput
   outputConnection?: Prisma.ConnectionUncheckedCreateNestedManyWithoutFromNodeInput
   inputConnection?: Prisma.ConnectionUncheckedCreateNestedManyWithoutToNodeInput
 }
@@ -605,6 +628,7 @@ export type NodeCreateWithoutWorkflowInput = {
   data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  webhook?: Prisma.WebhookCreateNestedOneWithoutNodeInput
   credential?: Prisma.CredentialCreateNestedOneWithoutNodeInput
   outputConnection?: Prisma.ConnectionCreateNestedManyWithoutFromNodeInput
   inputConnection?: Prisma.ConnectionCreateNestedManyWithoutToNodeInput
@@ -619,6 +643,7 @@ export type NodeUncheckedCreateWithoutWorkflowInput = {
   credentialId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  webhook?: Prisma.WebhookUncheckedCreateNestedOneWithoutNodeInput
   outputConnection?: Prisma.ConnectionUncheckedCreateNestedManyWithoutFromNodeInput
   inputConnection?: Prisma.ConnectionUncheckedCreateNestedManyWithoutToNodeInput
 }
@@ -658,6 +683,7 @@ export type NodeCreateWithoutOutputConnectionInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   workflow: Prisma.WorkflowCreateNestedOneWithoutNodesInput
+  webhook?: Prisma.WebhookCreateNestedOneWithoutNodeInput
   credential?: Prisma.CredentialCreateNestedOneWithoutNodeInput
   inputConnection?: Prisma.ConnectionCreateNestedManyWithoutToNodeInput
 }
@@ -672,6 +698,7 @@ export type NodeUncheckedCreateWithoutOutputConnectionInput = {
   credentialId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  webhook?: Prisma.WebhookUncheckedCreateNestedOneWithoutNodeInput
   inputConnection?: Prisma.ConnectionUncheckedCreateNestedManyWithoutToNodeInput
 }
 
@@ -689,6 +716,7 @@ export type NodeCreateWithoutInputConnectionInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   workflow: Prisma.WorkflowCreateNestedOneWithoutNodesInput
+  webhook?: Prisma.WebhookCreateNestedOneWithoutNodeInput
   credential?: Prisma.CredentialCreateNestedOneWithoutNodeInput
   outputConnection?: Prisma.ConnectionCreateNestedManyWithoutFromNodeInput
 }
@@ -703,6 +731,7 @@ export type NodeUncheckedCreateWithoutInputConnectionInput = {
   credentialId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  webhook?: Prisma.WebhookUncheckedCreateNestedOneWithoutNodeInput
   outputConnection?: Prisma.ConnectionUncheckedCreateNestedManyWithoutFromNodeInput
 }
 
@@ -731,6 +760,7 @@ export type NodeUpdateWithoutOutputConnectionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workflow?: Prisma.WorkflowUpdateOneRequiredWithoutNodesNestedInput
+  webhook?: Prisma.WebhookUpdateOneWithoutNodeNestedInput
   credential?: Prisma.CredentialUpdateOneWithoutNodeNestedInput
   inputConnection?: Prisma.ConnectionUpdateManyWithoutToNodeNestedInput
 }
@@ -745,6 +775,7 @@ export type NodeUncheckedUpdateWithoutOutputConnectionInput = {
   credentialId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  webhook?: Prisma.WebhookUncheckedUpdateOneWithoutNodeNestedInput
   inputConnection?: Prisma.ConnectionUncheckedUpdateManyWithoutToNodeNestedInput
 }
 
@@ -768,6 +799,7 @@ export type NodeUpdateWithoutInputConnectionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workflow?: Prisma.WorkflowUpdateOneRequiredWithoutNodesNestedInput
+  webhook?: Prisma.WebhookUpdateOneWithoutNodeNestedInput
   credential?: Prisma.CredentialUpdateOneWithoutNodeNestedInput
   outputConnection?: Prisma.ConnectionUpdateManyWithoutFromNodeNestedInput
 }
@@ -782,7 +814,80 @@ export type NodeUncheckedUpdateWithoutInputConnectionInput = {
   credentialId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  webhook?: Prisma.WebhookUncheckedUpdateOneWithoutNodeNestedInput
   outputConnection?: Prisma.ConnectionUncheckedUpdateManyWithoutFromNodeNestedInput
+}
+
+export type NodeCreateWithoutWebhookInput = {
+  id?: string
+  name: string
+  type: $Enums.NodeType
+  position: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  workflow: Prisma.WorkflowCreateNestedOneWithoutNodesInput
+  credential?: Prisma.CredentialCreateNestedOneWithoutNodeInput
+  outputConnection?: Prisma.ConnectionCreateNestedManyWithoutFromNodeInput
+  inputConnection?: Prisma.ConnectionCreateNestedManyWithoutToNodeInput
+}
+
+export type NodeUncheckedCreateWithoutWebhookInput = {
+  id?: string
+  workflowId: string
+  name: string
+  type: $Enums.NodeType
+  position: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  credentialId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  outputConnection?: Prisma.ConnectionUncheckedCreateNestedManyWithoutFromNodeInput
+  inputConnection?: Prisma.ConnectionUncheckedCreateNestedManyWithoutToNodeInput
+}
+
+export type NodeCreateOrConnectWithoutWebhookInput = {
+  where: Prisma.NodeWhereUniqueInput
+  create: Prisma.XOR<Prisma.NodeCreateWithoutWebhookInput, Prisma.NodeUncheckedCreateWithoutWebhookInput>
+}
+
+export type NodeUpsertWithoutWebhookInput = {
+  update: Prisma.XOR<Prisma.NodeUpdateWithoutWebhookInput, Prisma.NodeUncheckedUpdateWithoutWebhookInput>
+  create: Prisma.XOR<Prisma.NodeCreateWithoutWebhookInput, Prisma.NodeUncheckedCreateWithoutWebhookInput>
+  where?: Prisma.NodeWhereInput
+}
+
+export type NodeUpdateToOneWithWhereWithoutWebhookInput = {
+  where?: Prisma.NodeWhereInput
+  data: Prisma.XOR<Prisma.NodeUpdateWithoutWebhookInput, Prisma.NodeUncheckedUpdateWithoutWebhookInput>
+}
+
+export type NodeUpdateWithoutWebhookInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumNodeTypeFieldUpdateOperationsInput | $Enums.NodeType
+  position?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workflow?: Prisma.WorkflowUpdateOneRequiredWithoutNodesNestedInput
+  credential?: Prisma.CredentialUpdateOneWithoutNodeNestedInput
+  outputConnection?: Prisma.ConnectionUpdateManyWithoutFromNodeNestedInput
+  inputConnection?: Prisma.ConnectionUpdateManyWithoutToNodeNestedInput
+}
+
+export type NodeUncheckedUpdateWithoutWebhookInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  workflowId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumNodeTypeFieldUpdateOperationsInput | $Enums.NodeType
+  position?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  credentialId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  outputConnection?: Prisma.ConnectionUncheckedUpdateManyWithoutFromNodeNestedInput
+  inputConnection?: Prisma.ConnectionUncheckedUpdateManyWithoutToNodeNestedInput
 }
 
 export type NodeCreateManyCredentialInput = {
@@ -805,6 +910,7 @@ export type NodeUpdateWithoutCredentialInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workflow?: Prisma.WorkflowUpdateOneRequiredWithoutNodesNestedInput
+  webhook?: Prisma.WebhookUpdateOneWithoutNodeNestedInput
   outputConnection?: Prisma.ConnectionUpdateManyWithoutFromNodeNestedInput
   inputConnection?: Prisma.ConnectionUpdateManyWithoutToNodeNestedInput
 }
@@ -818,6 +924,7 @@ export type NodeUncheckedUpdateWithoutCredentialInput = {
   data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  webhook?: Prisma.WebhookUncheckedUpdateOneWithoutNodeNestedInput
   outputConnection?: Prisma.ConnectionUncheckedUpdateManyWithoutFromNodeNestedInput
   inputConnection?: Prisma.ConnectionUncheckedUpdateManyWithoutToNodeNestedInput
 }
@@ -852,6 +959,7 @@ export type NodeUpdateWithoutWorkflowInput = {
   data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  webhook?: Prisma.WebhookUpdateOneWithoutNodeNestedInput
   credential?: Prisma.CredentialUpdateOneWithoutNodeNestedInput
   outputConnection?: Prisma.ConnectionUpdateManyWithoutFromNodeNestedInput
   inputConnection?: Prisma.ConnectionUpdateManyWithoutToNodeNestedInput
@@ -866,6 +974,7 @@ export type NodeUncheckedUpdateWithoutWorkflowInput = {
   credentialId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  webhook?: Prisma.WebhookUncheckedUpdateOneWithoutNodeNestedInput
   outputConnection?: Prisma.ConnectionUncheckedUpdateManyWithoutFromNodeNestedInput
   inputConnection?: Prisma.ConnectionUncheckedUpdateManyWithoutToNodeNestedInput
 }
@@ -932,6 +1041,7 @@ export type NodeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   workflow?: boolean | Prisma.WorkflowDefaultArgs<ExtArgs>
+  webhook?: boolean | Prisma.Node$webhookArgs<ExtArgs>
   credential?: boolean | Prisma.Node$credentialArgs<ExtArgs>
   outputConnection?: boolean | Prisma.Node$outputConnectionArgs<ExtArgs>
   inputConnection?: boolean | Prisma.Node$inputConnectionArgs<ExtArgs>
@@ -981,6 +1091,7 @@ export type NodeSelectScalar = {
 export type NodeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workflowId" | "name" | "type" | "position" | "data" | "credentialId" | "createdAt" | "updatedAt", ExtArgs["result"]["node"]>
 export type NodeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workflow?: boolean | Prisma.WorkflowDefaultArgs<ExtArgs>
+  webhook?: boolean | Prisma.Node$webhookArgs<ExtArgs>
   credential?: boolean | Prisma.Node$credentialArgs<ExtArgs>
   outputConnection?: boolean | Prisma.Node$outputConnectionArgs<ExtArgs>
   inputConnection?: boolean | Prisma.Node$inputConnectionArgs<ExtArgs>
@@ -999,6 +1110,7 @@ export type $NodePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "Node"
   objects: {
     workflow: Prisma.$WorkflowPayload<ExtArgs>
+    webhook: Prisma.$WebhookPayload<ExtArgs> | null
     credential: Prisma.$CredentialPayload<ExtArgs> | null
     outputConnection: Prisma.$ConnectionPayload<ExtArgs>[]
     inputConnection: Prisma.$ConnectionPayload<ExtArgs>[]
@@ -1408,6 +1520,7 @@ readonly fields: NodeFieldRefs;
 export interface Prisma__NodeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   workflow<T extends Prisma.WorkflowDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkflowDefaultArgs<ExtArgs>>): Prisma.Prisma__WorkflowClient<runtime.Types.Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  webhook<T extends Prisma.Node$webhookArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Node$webhookArgs<ExtArgs>>): Prisma.Prisma__WebhookClient<runtime.Types.Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   credential<T extends Prisma.Node$credentialArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Node$credentialArgs<ExtArgs>>): Prisma.Prisma__CredentialClient<runtime.Types.Result.GetResult<Prisma.$CredentialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   outputConnection<T extends Prisma.Node$outputConnectionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Node$outputConnectionArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inputConnection<T extends Prisma.Node$inputConnectionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Node$inputConnectionArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1847,6 +1960,25 @@ export type NodeDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Nodes to delete.
    */
   limit?: number
+}
+
+/**
+ * Node.webhook
+ */
+export type Node$webhookArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Webhook
+   */
+  select?: Prisma.WebhookSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Webhook
+   */
+  omit?: Prisma.WebhookOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WebhookInclude<ExtArgs> | null
+  where?: Prisma.WebhookWhereInput
 }
 
 /**

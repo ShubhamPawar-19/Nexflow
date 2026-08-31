@@ -113,6 +113,7 @@ model Workflow {
   nodes       Node[]
   connections Connection[]
   executions  Execution[]
+  webhooks    Webhook[]
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -127,6 +128,7 @@ enum NodeType {
   STRIPE_TRIGGER
   WHATSAPP_TRIGGER
   GMAIL_TRIGGER
+  WEBHOOK_TRIGGER
 
   // Execution nodes
   HTTP_REQUEST
@@ -148,6 +150,8 @@ model Node {
   type     NodeType
   position Json
   data     Json     @default("{}")
+
+  webhook Webhook?
 
   credentialId String?
   credential   Credential? @relation(fields: [credentialId], references: [id])
@@ -224,4 +228,22 @@ model GmailProcessedMessage {
 
   @@unique([credentialId, messageId])
   @@index([credentialId])
+}
+
+model Webhook {
+  id         String @id @default(cuid())
+  workflowId String
+  nodeId     String @unique
+
+  workflow Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  node     Node     @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+
+  path     String  @unique
+  secret   String? @unique
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([workflowId])
 }

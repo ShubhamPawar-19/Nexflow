@@ -58,6 +58,14 @@ export const setupGmailWatch = async (credentialId: string) => {
             labelIds: ["INBOX"],
         },
     });
+    console.log("GMAIL WATCH RESPONSE", {
+    historyId: response.data.historyId,
+    expiration: response.data.expiration,
+    expirationDate: response.data.expiration
+        ? new Date(Number(response.data.expiration)).toISOString()
+        : null,
+    now: new Date().toISOString(),
+});
 
     const historyId = response.data.historyId;
     const expiration = response.data.expiration;
