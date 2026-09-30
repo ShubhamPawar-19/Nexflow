@@ -2,7 +2,6 @@
 
 import { NodeType } from "@/generated/prisma/enums";
 import { createId } from "@paralleldrive/cuid2";
-import { GlobeIcon, MousePointerIcon } from "lucide-react";
 import React, { useCallback } from "react";
 import {
     Sheet,
@@ -15,6 +14,7 @@ import {
 import { Separator } from "./ui/separator";
 import { useReactFlow } from "@xyflow/react";
 import { toast } from "sonner";
+import { GitBranchIcon, GlobeIcon, MousePointerIcon } from "lucide-react";
 
 export type NodeTypeOption = {
     type: NodeType;
@@ -111,6 +111,12 @@ const executionNode: NodeTypeOption[] = [
         description: "Send an email using Gmail",
         icon: "/logos/gmail.svg",
     },
+    {
+    type: NodeType.IF_ELSE,
+    label: "If / Else",
+    description: "Run different paths based on a condition",
+    icon: GitBranchIcon,
+},
 ];
 
 interface NodeSelectorProps {

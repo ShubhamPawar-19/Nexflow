@@ -14,10 +14,11 @@ import { gmailExecutor } from "../components/gmail/executor";
 import { whatsappTriggerExecutor } from "@/features/triggers/components/whatsapp-trigger/executor";
 import { gmailTriggerExecutor } from "@/features/triggers/components/gmail-trigger/executor";
 import { webhookTriggerExecutor } from "@/features/triggers/components/webhook-trigger/executor";
+import { ifElseExecutor } from "../components/if-else/executor";
 
-export const executorRegistry: Record<NodeType, NodeExecutor> = {
+export const executorRegistry: Record<NodeType, NodeExecutor<any>> = {
     [NodeType.MANUAL_TRIGGER]: manualTriggerExecutor,
-    [NodeType.HTTP_REQUEST]: httpRequestExecutor, //fix type
+    [NodeType.HTTP_REQUEST]: httpRequestExecutor,
     [NodeType.INITIAL]: manualTriggerExecutor,
     [NodeType.GOOGLE_FORM_TRIGGER]: googleFormTriggerExecutor,
     [NodeType.STRIPE_TRIGGER]: stripeTriggerExecutor,
@@ -31,12 +32,15 @@ export const executorRegistry: Record<NodeType, NodeExecutor> = {
     [NodeType.GMAIL]: gmailExecutor,
     [NodeType.GMAIL_TRIGGER]: gmailTriggerExecutor,
     [NodeType.WEBHOOK_TRIGGER]: webhookTriggerExecutor,
+    [NodeType.IF_ELSE]: ifElseExecutor,
 };
 
-export const getExecutor = (type: NodeType): NodeExecutor => {
+export const getExecutor = (type: NodeType): NodeExecutor<any> => {
     const executor = executorRegistry[type];
+
     if (!executor) {
         throw new Error(`No executor found for node type: ${type}`);
     }
+
     return executor;
 };
