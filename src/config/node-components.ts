@@ -4,6 +4,7 @@ import { DiscordNode } from "@/features/executions/components/discord/node";
 import { GeminiNode } from "@/features/executions/components/gemini/node";
 import { GmailNode } from "@/features/executions/components/gmail/node";
 import { HttpRequestNode } from "@/features/executions/components/http-request/node";
+import { IfElseNode } from "@/features/executions/components/if-else/node";
 import { OpenAiNode } from "@/features/executions/components/openai/node";
 import { SlackNode } from "@/features/executions/components/slack/node";
 import { WhatsAppNode } from "@/features/executions/components/whatsapp/node";
@@ -32,6 +33,7 @@ export const nodeComponents = {
     [NodeType.GMAIL]: GmailNode,
     [NodeType.GMAIL_TRIGGER]: GmailTriggerNode,
     [NodeType.WEBHOOK_TRIGGER]: WebhookTriggerNode,
+    [NodeType.IF_ELSE]: IfElseNode,
 } as const satisfies NodeTypes;
 
 export type RegistrationNodeType = keyof typeof nodeComponents;

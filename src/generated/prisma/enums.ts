@@ -35,7 +35,8 @@ export const NodeType = {
   DISCORD: 'DISCORD',
   SLACK: 'SLACK',
   WHATSAPP: 'WHATSAPP',
-  GMAIL: 'GMAIL'
+  GMAIL: 'GMAIL',
+  IF_ELSE: 'IF_ELSE'
 } as const
 
 export type NodeType = (typeof NodeType)[keyof typeof NodeType]

@@ -139,6 +139,7 @@ enum NodeType {
   SLACK
   WHATSAPP
   GMAIL
+  IF_ELSE
 }
 
 model Node {
